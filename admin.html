@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Panel Privado - Mods</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: white;
+        padding: 20px;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: 1px solid #444;
+        background: #222;
+        color: white;
+    }
+    button {
+        padding: 12px;
+        background: #4c8bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    button:hover {
+        background: #3b6fe0;
+    }
+    .box {
+        max-width: 600px;
+        margin: auto;
+        background: #181818;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #333;
+    }
+</style>
+</head>
+
+<body>
+<div class="box">
+
+<h2>Panel privado — Agregar Mod</h2>
+
+<label>Nombre del mod</label>
+<input id="name" type="text">
+
+<label>Descripción</label>
+<textarea id="desc"></textarea>
+
+<label>URL de la imagen</label>
+<input id="image" type="text">
+
+<label>Link del video</label>
+<input id="video" type="text">
+
+<label>Link del mod (descarga)</label>
+<input id="link" type="text">
+
+<button onclick="guardarMod()">Guardar mod</button>
+
+<p id="status"></p>
+
+</div>
+
+<script>
+
+// -------- CONFIGURACIÓN --------
+// Rellena estos datos:
+
+const GITHUB_USER = "RyujiSaiyan";
+const GITHUB_REPO = "ryujisaiyan.github.io";
+const FILE_PATH = "mods.json";
+const TOKEN = "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";
+
+// --------------------------------
+
+async function guardarMod() {
+
+    document.getElementById("status").innerText = "Guardando mod...";
+
+    const name  = document.getElementById("name").value;
+    const desc  = document.getElementById("desc").value;
+    const image = document.getElementById("image").value;
+    const video = document.getElementById("video").value;
+    const link  = document.getElementById("link").value;
+
+    if(!name || !image || !link) {
+        document.getElementById("status").innerText = "Faltan datos obligatorios.";
+        return;
+    }
+
+    // 1) Obtenemos el archivo mods.json actual
+    const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
+
+    const fileResp = await fetch(url, {
+        headers: { Authorization: `Bearer ${TOKEN}` }
+    });
+
+    const fileData = await fileResp.json();
+
+    // Decodificar el contenido actual del JSON
+    const modsActuales = JSON.parse(atob(fileData.content));
+
+    // Agregar el nuevo mod
+    modsActuales.push({
+        title: name,
+        description: desc,
+        image: image,
+        video: video,
+        link: link
+    });
+
+    // Codificar en base64
+    const nuevoContenido = btoa(JSON.stringify(modsActuales, null, 2));
+
+    // 2) Subir el archivo modificado
+    const saveResp = await fetch(url, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${TOKEN}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: "Nuevo mod agregado",
+            content: nuevoContenido,
+            sha: fileData.sha
+        })
+    });
+
+    if (saveResp.ok) {
+        document.getElementById("status").innerText = "Mod agregado correctamente 🎉";
+    } else {
+        document.getElementById("status").innerText = "Error guardando el mod.";
+        console.error(await saveResp.text());
+    }
+}
+</script>
+
+</body>
+</html>
