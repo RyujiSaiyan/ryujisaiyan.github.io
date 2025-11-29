@@ -1,8 +1,17 @@
+let modsData = [];
+
 async function loadMods() {
     const container = document.getElementById("modsContainer");
     const response = await fetch("mods.json");
-    const mods = await response.json();
+    modsData = await response.json();
 
+    generateCategoryFilters();
+    generateCategoryButtons();
+    displayMods(modsData);
+}
+
+function displayMods(mods) {
+    const container = document.getElementById("modsContainer");
     container.innerHTML = "";
 
     mods.forEach(mod => {
@@ -10,13 +19,14 @@ async function loadMods() {
         const thumbnail = `https://img.youtube.com/vi/${youtubeID}/maxresdefault.jpg`;
 
         const col = document.createElement("div");
-        col.classList.add("col-12", "col-sm-6", "col-md-4", "col-lg-3");
+        col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
 
         col.innerHTML = `
             <div class="card h-100">
                 <img src="${thumbnail}" class="thumbnail card-img-top">
 
                 <div class="card-body d-flex flex-column">
+                    <span class="badge bg-primary mb-2">${mod.category}</span>
                     <h5 class="card-title">${mod.title}</h5>
                     <p class="card-desc">${mod.description}</p>
 
@@ -38,15 +48,43 @@ function extractYouTubeID(url) {
     return match ? match[1] : "";
 }
 
-// Buscador en tiempo real
+function generateCategoryFilters() {
+    const categories = [...new Set(modsData.map(m => m.category))];
+    const box = document.getElementById("categoryFilters");
+
+    box.innerHTML = `
+        <button class="btn btn-outline-light me-2" onclick="displayMods(modsData)">Todos</button>
+    `;
+
+    categories.forEach(cat => {
+        box.innerHTML += `
+            <button class="btn btn-outline-info me-2" onclick="filterByCategory('${cat}')">${cat}</button>
+        `;
+    });
+}
+
+function generateCategoryButtons() {
+    const categories = [...new Set(modsData.map(m => m.category))];
+    const list = document.getElementById("categoriesList");
+
+    categories.forEach(cat => {
+        list.innerHTML += `
+            <button class="btn btn-info" onclick="filterByCategory('${cat}'); document.querySelector('[data-bs-target=\"#mods\"]').click();">
+                ${cat}
+            </button>
+        `;
+    });
+}
+
+function filterByCategory(category) {
+    const filtered = modsData.filter(m => m.category === category);
+    displayMods(filtered);
+}
+
 document.getElementById("searchInput").addEventListener("input", function () {
     const term = this.value.toLowerCase();
-    const cards = document.querySelectorAll("#modsContainer .card");
-
-    cards.forEach(card => {
-        const visible = card.innerText.toLowerCase().includes(term);
-        card.parentElement.style.display = visible ? "block" : "none";
-    });
+    const filtered = modsData.filter(m => m.title.toLowerCase().includes(term));
+    displayMods(filtered);
 });
 
 loadMods();

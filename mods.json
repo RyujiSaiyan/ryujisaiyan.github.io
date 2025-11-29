@@ -1,8 +1,16 @@
 [
-  {
-    "title": "Goku SSJ 4 - Remake - Universo Tenkaichi BTC",
-    "description": "Ultimo video",
-    "youtube": "https://www.youtube.com/watch?v=FrghPxOgrYQ",
-    "download": "https://mega.nz/XXXXXXX"
-  }
+    {
+        "title": "Testeo",
+        "description": "BTC",
+        "youtube": "https://www.youtube.com/watch?v=XXXXXXX",
+        "download": "https://mega.nz/XXXXXXX",
+        "category": "Video"
+    },
+    {
+        "title": "Testeo 2",
+        "description": "SPEEDRUN",
+        "youtube": "https://www.youtube.com/watch?v=YYYYYYY",
+        "download": "https://drive.google.com/XXXXXXX",
+        "category": "Speedrun"
+    }
 ]
