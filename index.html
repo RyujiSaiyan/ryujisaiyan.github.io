@@ -64,7 +64,6 @@
         gap: 20px;
     }
 
-    /* Tamaños responsivos */
     .grid-4 { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
     .grid-3 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 
@@ -108,7 +107,6 @@
         color: var(--text-muted);
     }
 
-    /* Video principal */
     .main-video {
         background: var(--bg-card);
         border-radius: 15px;
@@ -148,60 +146,26 @@
 
 <div class="container">
 
-    <!-- Sección: Más popular -->
+    <!-- SECCIÓN: MÁS POPULAR -->
     <h2 class="section-title">Más popular</h2>
 
     <div class="main-video">
-        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
-        <h3>⚡ Título de tu video más popular</h3>
-        <p style="color: var(--text-muted);">Descripción corta del video o contenido destacado.</p>
+        <iframe id="popular-video" src="" allowfullscreen></iframe>
+        <h3 id="popular-title">Cargando video...</h3>
+        <p id="popular-desc" style="color: var(--text-muted);">Esperando el video más popular del canal...</p>
     </div>
 
-    <!-- Últimos posts -->
+    <!-- ÚLTIMOS POSTS (AUTOMÁTICO DESDE YOUTUBE) -->
     <h2 class="section-title">Últimos posts</h2>
-    <div class="grid grid-3">
 
-        <!-- Ejemplo post -->
-        <div class="card">
-            <img src="https://picsum.photos/800/400?random=1">
-            <div class="card-content">
-                <div class="card-title">Post de ejemplo 1</div>
-                <div class="card-meta">28 noviembre 2025 · Categoría</div>
-                <p>
-                    Un pequeño resumen del contenido del artículo o video.
-                </p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://picsum.photos/800/400?random=2">
-            <div class="card-content">
-                <div class="card-title">Post de ejemplo 2</div>
-                <div class="card-meta">27 noviembre 2025 · Noticias</div>
-                <p>
-                    Una breve descripción interesante para enganchar al lector.
-                </p>
-            </div>
-        </div>
-
-        <div class="card">
-            <img src="https://picsum.photos/800/400?random=3">
-            <div class="card-content">
-                <div class="card-title">Post de ejemplo 3</div>
-                <div class="card-meta">27 noviembre 2025 · Tutorial</div>
-                <p>
-                    Un breve resumen del artículo o del contenido compartido.
-                </p>
-            </div>
-        </div>
-
+    <div class="grid grid-3" id="youtube-feed">
+        <p>Cargando los últimos videos…</p>
     </div>
 
-    <!-- Highlights de la semana -->
+    <!-- DESTACADOS -->
     <h2 class="section-title">Destacados de la semana</h2>
     <div class="grid grid-4">
 
-        <!-- Card mini -->
         <div class="card">
             <img src="https://picsum.photos/800/400?random=4">
             <div class="card-content">
@@ -241,6 +205,82 @@
 <footer>
     © 2025 - Mi Blog Dark · Todos los derechos reservados
 </footer>
+
+<!-- SCRIPT PARA CARGAR VIDEOS DESDE YOUTUBE -->
+<script>
+const API_KEY = "AIzaSyAykSooDgAmuarzGPPyl8bygkR7T5pIPss";
+const CHANNEL_ID = "TU_CHANNUCG_Oh0Ty-spxPukCEvfXWjQEL_ID";
+
+/* Cargar últimos 3 videos */
+async function cargarUltimosVideos() {
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}
+                 &channelId=${CHANNEL_ID}
+                 &part=snippet,id
+                 &order=date
+                 &maxResults=3`.replace(/\s+/g, '');
+
+    try {
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        let html = "";
+
+        data.items.forEach(item => {
+            if (item.id.kind === "youtube#video") {
+                html += `
+                <div class="card">
+                    <img src="${item.snippet.thumbnails.high.url}">
+                    <div class="card-content">
+                        <div class="card-title">${item.snippet.title}</div>
+                        <div class="card-meta">${item.snippet.publishedAt.substring(0, 10)}</div>
+                        <p>${item.snippet.description.substring(0, 120)}...</p>
+                        <a href="https://www.youtube.com/watch?v=${item.id.videoId}"
+                           target="_blank"
+                           style="color: var(--accent); font-weight:bold; display:block; margin-top:10px;">
+                           Ver video →
+                        </a>
+                    </div>
+                </div>`;
+            }
+        });
+
+        document.getElementById("youtube-feed").innerHTML = html;
+
+    } catch (e) {
+        document.getElementById("youtube-feed").innerHTML =
+            "<p>Error al cargar los videos.</p>";
+    }
+}
+
+/* Cargar video más popular */
+async function cargarPopular() {
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}
+                 &channelId=${CHANNEL_ID}
+                 &part=snippet,id
+                 &order=viewCount
+                 &maxResults=1`.replace(/\s+/g, '');
+
+    try {
+        const resp = await fetch(url);
+        const data = await resp.json();
+        const item = data.items[0];
+
+        document.getElementById("popular-video").src =
+            `https://www.youtube.com/embed/${item.id.videoId}`;
+
+        document.getElementById("popular-title").innerText = item.snippet.title;
+        document.getElementById("popular-desc").innerText =
+            item.snippet.description.substring(0, 200);
+
+    } catch (e) {
+        document.getElementById("popular-title").innerText =
+            "Error al cargar el video popular.";
+    }
+}
+
+cargarUltimosVideos();
+cargarPopular();
+</script>
 
 </body>
 </html>
