@@ -1,87 +1,75 @@
+/* ----- Estilo general ----- */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0d1117;
-    color: #ffffff;
+    background-color: #0d0f14;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
 }
 
-header {
-    text-align: center;
-    padding: 20px;
+/* ----- Personaje al lado derecho estilo Arknights ----- */
+#character-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background: url("assets/personaje.png") no-repeat right bottom;
+    background-size: 75%;
+    opacity: 0.12;
+    pointer-events: none;
+    filter: drop-shadow(0 0 15px #2a2a3a);
 }
 
-#searchInput {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    width: 90%;
-    max-width: 350px;
-    margin-top: 10px;
-    background: #1b1f27;
-    color: white;
+/* Títulos tipo panel tech */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    border-left: 6px solid #646cff;
+    padding-left: 12px;
+    margin-bottom: 20px;
 }
 
-#modsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
+/* ----- Cards de mods ----- */
 .card {
-    background: #161b22;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-    transition: 0.2s;
+    background: #161a23 !important;
+    border: 1px solid #2a2d35 !important;
+    box-shadow: 0 0 10px rgba(0,0,0,0.45);
+    transition: transform .25s;
 }
 
 .card:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
 }
 
 .thumbnail {
-    width: 100%;
-    height: 160px;
+    height: 170px;
     object-fit: cover;
-}
-
-.card-content {
-    padding: 15px;
+    border-bottom: 2px solid #303645;
 }
 
 .card-title {
-    font-size: 1.1rem;
     font-weight: bold;
-    margin-bottom: 8px;
+    color: #cacfe7;
 }
 
 .card-desc {
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    color: #c9d1d9;
+    color: #9ba4c9;
 }
 
-.card-buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.card-buttons a {
-    flex: 1;
-    text-align: center;
-    padding: 8px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-}
-
+/* Botones */
 .btn-video {
-    background: #238636;
+    background-color: #3c3b7c;
+    border: none;
+}
+
+.btn-video:hover {
+    background-color: #5756a6;
 }
 
 .btn-download {
-    background: #0969da;
+    background-color: #a53737;
+    border: none;
+}
+
+.btn-download:hover {
+    background-color: #d64545;
 }
