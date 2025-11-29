@@ -28,5 +28,65 @@
         "mod": "https://mediafire.com/example3",
         "imagen_mod": "https://picsum.photos/600/800?random=3",
         "thumbnail": "https://img.youtube.com/vi/V-_O7nl0Ii0/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 1 – Goku (Prueba)",
+        "fecha": "2025-01-15",
+        "categorias": ["Dragon Ball", "Anime"],
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "desc": "Este es un mod de prueba que usa un video real de YouTube para verificar el sistema.",
+        "mod": "https://mega.nz/example1",
+        "imagen_mod": "https://picsum.photos/600/800?random=1",
+        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 2 – Naruto (Prueba)",
+        "fecha": "2025-02-01",
+        "categorias": ["Naruto", "Anime"],
+        "video": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "desc": "Segundo mod de prueba con otro video real de YouTube. Para verificar popup, imágenes y filtros.",
+        "mod": "https://mega.nz/example2",
+        "imagen_mod": "https://picsum.photos/600/800?random=2",
+        "thumbnail": "https://img.youtube.com/vi/aqz-KE-bpKQ/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 3 – Minecraft Shader",
+        "fecha": "2025-03-10",
+        "categorias": ["Minecraft", "Shaders"],
+        "video": "https://www.youtube.com/watch?v=V-_O7nl0Ii0",
+        "desc": "Mod de Minecraft para probar el filtrado con categorías más amplias.",
+        "mod": "https://mediafire.com/example3",
+        "imagen_mod": "https://picsum.photos/600/800?random=3",
+        "thumbnail": "https://img.youtube.com/vi/V-_O7nl0Ii0/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 1 – Goku (Prueba)",
+        "fecha": "2025-01-15",
+        "categorias": ["Dragon Ball", "Anime"],
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "desc": "Este es un mod de prueba que usa un video real de YouTube para verificar el sistema.",
+        "mod": "https://mega.nz/example1",
+        "imagen_mod": "https://picsum.photos/600/800?random=1",
+        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 2 – Naruto (Prueba)",
+        "fecha": "2025-02-01",
+        "categorias": ["Naruto", "Anime"],
+        "video": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "desc": "Segundo mod de prueba con otro video real de YouTube. Para verificar popup, imágenes y filtros.",
+        "mod": "https://mega.nz/example2",
+        "imagen_mod": "https://picsum.photos/600/800?random=2",
+        "thumbnail": "https://img.youtube.com/vi/aqz-KE-bpKQ/maxresdefault.jpg"
+    },
+    {
+        "name": "TEST Mod 3 – Minecraft Shader",
+        "fecha": "2025-03-10",
+        "categorias": ["Minecraft", "Shaders"],
+        "video": "https://www.youtube.com/watch?v=V-_O7nl0Ii0",
+        "desc": "Mod de Minecraft para probar el filtrado con categorías más amplias.",
+        "mod": "https://mediafire.com/example3",
+        "imagen_mod": "https://picsum.photos/600/800?random=3",
+        "thumbnail": "https://img.youtube.com/vi/V-_O7nl0Ii0/maxresdefault.jpg"
     }
 ]
