@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0d1117;
+    color: #ffffff;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+}
+
+#searchInput {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    width: 90%;
+    max-width: 350px;
+    margin-top: 10px;
+    background: #1b1f27;
+    color: white;
+}
+
+#modsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: #161b22;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.thumbnail {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #c9d1d9;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card-buttons a {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-video {
+    background: #238636;
+}
+
+.btn-download {
+    background: #0969da;
+}
