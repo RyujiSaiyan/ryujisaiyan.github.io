@@ -1,16 +1,1 @@
-[
-    {
-        "title": "Testeo",
-        "description": "BTC",
-        "youtube": "https://www.youtube.com/watch?v=XXXXXXX",
-        "download": "https://mega.nz/XXXXXXX",
-        "category": "Video"
-    },
-    {
-        "title": "Testeo 2",
-        "description": "SPEEDRUN",
-        "youtube": "https://www.youtube.com/watch?v=YYYYYYY",
-        "download": "https://drive.google.com/XXXXXXX",
-        "category": "Speedrun"
-    }
-]
+[]
