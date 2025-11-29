@@ -428,6 +428,10 @@ function renderMods() {
     container.innerHTML = html;
 }
 
+cargarMods();
+</script>
+
+<script>
 function abrirModal(nombre) {
     const mod = mods.find(m => m.name === nombre);
 
@@ -438,14 +442,30 @@ function abrirModal(nombre) {
     document.getElementById("modal-video").href = mod.video;
     document.getElementById("modal-download").href = mod.mod;
 
-    document.getElementById("mod-modal").style.display = "flex";
+    const modal = document.getElementById("mod-modal");
+    const content = document.getElementById("mod-modal-content");
+
+    modal.style.display = "flex";
+
+    // pequeña pausa para permitir animación
+    setTimeout(() => {
+        modal.classList.add("mostrar");
+        content.classList.add("mostrar");
+    }, 10);
 }
 
 function cerrarModal() {
-    document.getElementById("mod-modal").style.display = "none";
-}
+    const modal = document.getElementById("mod-modal");
+    const content = document.getElementById("mod-modal-content");
 
-cargarMods();
+    content.classList.remove("mostrar");
+    modal.classList.remove("mostrar");
+
+    // esperar animación antes de ocultarlo
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 250);
+}
 </script>
 
 </body>

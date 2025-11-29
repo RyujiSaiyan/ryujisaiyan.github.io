@@ -73,3 +73,24 @@ body {
 .btn-download:hover {
     background-color: #d64545;
 }
+
+/* --- Animación popup fade-in --- */
+#mod-modal {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+#mod-modal.mostrar {
+    opacity: 1;
+}
+
+#mod-modal-content {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+#mod-modal-content.mostrar {
+    transform: scale(1);
+    opacity: 1;
+}
