@@ -1,125 +1,246 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi Blog Personal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Blog Dark</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #333;
-        }
+<style>
+    :root {
+        --bg: #0f0f0f;
+        --bg-card: #181818;
+        --text: #e5e5e5;
+        --text-muted: #9d9d9d;
+        --accent: #4c8bff;
+        --border: #2a2a2a;
+    }
 
-        header {
-            background: #1e1e1e;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+    body {
+        margin: 0;
+        font-family: "Roboto", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-        }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 30px;
+        background: #121212;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
 
-        nav {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
+    header a {
+        color: var(--text);
+        margin: 0 12px;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
 
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-        }
+    header .logo {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
 
-        .post {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+    h2.section-title {
+        font-size: 1.4rem;
+        border-left: 4px solid var(--accent);
+        padding-left: 10px;
+        margin: 30px 0 15px;
+    }
 
-        .post h2 {
-            margin-top: 0;
-        }
+    .grid {
+        display: grid;
+        gap: 20px;
+    }
 
-        .post iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
-            border-radius: 8px;
-        }
+    /* Tamaños responsivos */
+    .grid-4 { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 
-        footer {
-            background: #1e1e1e;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 40px;
-        }
+    .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.2s;
+    }
 
-        .date {
-            color: #777;
-            font-size: 0.9em;
-        }
-    </style>
+    .card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent);
+    }
+
+    .card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        margin: 0 0 8px;
+        font-weight: bold;
+    }
+
+    .card-meta {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+    }
+
+    .card p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    /* Video principal */
+    .main-video {
+        background: var(--bg-card);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .main-video iframe {
+        width: 100%;
+        height: 400px;
+        border-radius: 10px;
+        border: none;
+    }
+
+    footer {
+        margin-top: 40px;
+        background: #121212;
+        text-align: center;
+        padding: 20px;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border);
+    }
+</style>
 </head>
 
 <body>
-    <header>
-        <h1>Mi Blog Personal</h1>
-        <p>Publicaciones, videos y contenido que quiero compartir</p>
-    </header>
 
+<header>
+    <div class="logo">MiBlog</div>
     <nav>
         <a href="#">Inicio</a>
-        <a href="#about">Sobre mí</a>
-        <a href="#contact">Contacto</a>
+        <a href="#">Videos</a>
+        <a href="#">Blog</a>
+        <a href="#">Contacto</a>
     </nav>
+</header>
 
-    <div class="container">
+<div class="container">
 
-        <!-- EJEMPLO DE POST 1 -->
-        <div class="post">
-            <h2>Mi nuevo video 🎥</h2>
-            <p class="date">Publicado el 28 noviembre 2025</p>
+    <!-- Sección: Más popular -->
+    <h2 class="section-title">Más popular</h2>
 
-            <!-- Inserta aquí el link de tu video de YouTube -->
-            <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+    <div class="main-video">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+        <h3>⚡ Título de tu video más popular</h3>
+        <p style="color: var(--text-muted);">Descripción corta del video o contenido destacado.</p>
+    </div>
 
-            <p>
-                Aquí escribes la descripción del video, detalles, enlaces importantes 
-                o cualquier cosa que quieras comentar.
-            </p>
+    <!-- Últimos posts -->
+    <h2 class="section-title">Últimos posts</h2>
+    <div class="grid grid-3">
+
+        <!-- Ejemplo post -->
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=1">
+            <div class="card-content">
+                <div class="card-title">Post de ejemplo 1</div>
+                <div class="card-meta">28 noviembre 2025 · Categoría</div>
+                <p>
+                    Un pequeño resumen del contenido del artículo o video.
+                </p>
+            </div>
         </div>
 
-        <!-- EJEMPLO DE POST 2 -->
-        <div class="post">
-            <h2>Otro post de ejemplo</h2>
-            <p class="date">Publicado el 27 noviembre 2025</p>
-            <p>
-                Este es un ejemplo de un post solo de texto. Puedes escribir tutoriales, 
-                opiniones o lo que tú quieras.
-            </p>
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=2">
+            <div class="card-content">
+                <div class="card-title">Post de ejemplo 2</div>
+                <div class="card-meta">27 noviembre 2025 · Noticias</div>
+                <p>
+                    Una breve descripción interesante para enganchar al lector.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=3">
+            <div class="card-content">
+                <div class="card-title">Post de ejemplo 3</div>
+                <div class="card-meta">27 noviembre 2025 · Tutorial</div>
+                <p>
+                    Un breve resumen del artículo o del contenido compartido.
+                </p>
+            </div>
         </div>
 
     </div>
 
-    <footer>
-        © 2025 - Mi Blog Personal
-    </footer>
+    <!-- Highlights de la semana -->
+    <h2 class="section-title">Destacados de la semana</h2>
+    <div class="grid grid-4">
+
+        <!-- Card mini -->
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=4">
+            <div class="card-content">
+                <div class="card-title">Lo más visto</div>
+                <div class="card-meta">5000 vistas</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=5">
+            <div class="card-content">
+                <div class="card-title">Nueva guía</div>
+                <div class="card-meta">Tutorial</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=6">
+            <div class="card-content">
+                <div class="card-title">Actualizaciones</div>
+                <div class="card-meta">Blog</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/800/400?random=7">
+            <div class="card-content">
+                <div class="card-title">Nuevo video</div>
+                <div class="card-meta">YouTube</div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2025 - Mi Blog Dark · Todos los derechos reservados
+</footer>
 
 </body>
 </html>
