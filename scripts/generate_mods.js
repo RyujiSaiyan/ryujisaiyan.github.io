@@ -2,7 +2,7 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 
 // CONFIG
-const API_KEY = process.env.YT_API_KEY; // La API key se cargará desde Secrets
+const API_KEY = process.env.MODS_TOKEN; // La API key se cargará desde Secrets
 const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
 
 // Sanitiza URLs
