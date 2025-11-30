@@ -19,7 +19,7 @@
     --text: #E8ECF9;
     --primary: #A39ACB;
     --primary-glow: rgba(163,154,203,0.65);
-    --card-bg: #1B1E24;
+    --card-bg: #111522;
     --border: #2F333D;
 }
 
@@ -117,7 +117,6 @@ body {
     border: 2px solid var(--primary);
     animation: neonPop 0.5s ease forwards;
 }
-
 </style>
 </head>
 
@@ -182,100 +181,29 @@ body {
 <!-- LIGHTBOX -->
 <div id="lightbox-bg"><img id="lightbox-img"></div>
 
-<!-- ========== YOUTUBE API ========== -->
+
+<!-- ===========================
+     SISTEMA DE MODS AUTOMÁTICOS
+     =========================== -->
 <script>
 const API_KEY = "AIzaSyCrLWKQFw9pW-YRuPtjG10yj0rycxJLvHE";
 const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
-
-/* ==========================
-   CARGAR ÚLTIMOS VIDEOS
-   ========================== */
-async function cargarUltimosVideos() {
-    const url =
-    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6`;
-
-    const resp = await fetch(url);
-    const data = await resp.json();
-
-    const cont = document.getElementById("youtube-feed");
-    cont.innerHTML = "";
-
-    data.items.forEach(item => {
-        if (!item.id.videoId) return;
-
-        cont.innerHTML += `
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="${item.snippet.thumbnails.high.url}">
-                <div class="card-body">
-                    <h5 class="card-title">${item.snippet.title}</h5>
-
-                    <small class="text-secondary d-block">
-                        ${item.snippet.publishedAt.substring(0,10)}
-                    </small>
-
-                    <p class="card-text text-secondary">
-                        ${item.snippet.description.substring(0,120)}…
-                    </p>
-
-                    <a class="btn btn-primary w-100"
-                        href="https://www.youtube.com/watch?v=${item.id.videoId}"
-                        target="_blank">Ver video</a>
-                </div>
-            </div>
-        </div>`;
-    });
-}
-
-/* ==========================
-   VIDEO POPULAR
-   ========================== */
-async function cargarPopular() {
-    const url =
-    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=viewCount&maxResults=1`;
-
-    const r = await fetch(url);
-    const d = await r.json();
-
-    const i = d.items[0];
-
-    document.getElementById("popular-video").src =
-        `https://www.youtube.com/embed/${i.id.videoId}`;
-
-    document.getElementById("popular-title").innerText = i.snippet.title;
-    document.getElementById("popular-date").innerText = i.snippet.publishedAt.substring(0,10);
-    document.getElementById("popular-desc").innerText = i.snippet.description.substring(0,200);
-}
-
-cargarUltimosVideos();
-cargarPopular();
-</script>
-
-<!-- ============================================
-     SISTEMA DE MODS AUTOMÁTICOS DESDE YOUTUBE
-     ============================================ -->
-<script>
 
 let modsAuto = [];
 let categoriasSet = new Set();
 let filtrosSet = new Set();
 
-/* ============================================
-   UTIL — EXTRAER CATEGORÍAS
-   Formato esperado:
-   Categorias: algo, algo, algo
-   ============================================ */
+/* ===========================
+   Extraer Categorías
+   =========================== */
 function extraerCategorias(desc) {
     let lines = desc.replace(/\r/g, "").split("\n").map(l => l.trim());
-
     let linea = lines.find(l => l.toLowerCase().startsWith("categorias:"));
     if (!linea) return [];
 
     linea = linea.replace(/categorias:/i, "").trim();
-
     let cats = linea.split(",").map(c => c.trim());
 
-    // Filtrar basura accidental
     return cats.filter(c =>
         c.length > 0 &&
         !c.toLowerCase().includes("http") &&
@@ -284,28 +212,23 @@ function extraerCategorias(desc) {
     );
 }
 
-/* ============================================
-   UTIL — EXTRAER LINK DEL MOD (formato con espacio)
-   Mod: https://mega . nz/file/XXXX
-   ============================================ */
+/* ===========================
+   Extraer Link del Mod
+   =========================== */
 function extraerLinkMod(desc) {
     let lines = desc.replace(/\r/g, "").split("\n").map(l => l.trim());
     let linea = lines.find(l => l.toLowerCase().startsWith("mod:"));
     if (!linea) return "";
 
     linea = linea.replace(/mod:/i, "").trim();
-
-    // Quitar espacios protegidos
-    linea = linea.replace(" . ", ".");
-    linea = linea.replace(" .", ".");
-    linea = linea.replace(". ", ".");
+    linea = linea.replace(" . ", ".").replace(" .", ".").replace(". ", ".");
 
     return linea.trim();
 }
 
-/* ============================================
-   CARGAR MODS AUTOMÁTICOS DESDE YOUTUBE
-   ============================================ */
+/* ===========================
+   Cargar MODS desde YouTube
+   =========================== */
 async function cargarModsAutomaticos() {
     const url =
     `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=40`;
@@ -323,7 +246,6 @@ async function cargarModsAutomaticos() {
         let cats = extraerCategorias(desc);
         let modLink = extraerLinkMod(desc);
 
-        // Miniaturas
         let vid = item.id.videoId;
         let maxRes = `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`;
         let hq =     `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
@@ -346,9 +268,9 @@ async function cargarModsAutomaticos() {
     renderMods();
 }
 
-/* ============================================
-   GENERAR FILTROS DINÁMICOS
-   ============================================ */
+/* ===========================
+   Generar Filtros
+   =========================== */
 function generarDropdownMods() {
     const dd = document.getElementById("mods-dropdown");
     dd.innerHTML = `
@@ -357,25 +279,22 @@ function generarDropdownMods() {
         </label>
         <hr class="dropdown-divider">
     `;
-
     categoriasSet.forEach(cat => {
         dd.innerHTML += `
         <label class="dropdown-item">
             <input type="checkbox" value="${cat}" onchange="toggleFiltro(this)"> ${cat}
-        </label>
-        `;
+        </label>`;
     });
 }
 
-/* ============================================
-   APLICAR FILTROS
-   ============================================ */
+/* ===========================
+   Aplicar Filtro
+   =========================== */
 function toggleFiltro(chk) {
-
     if (chk.value === "ALL") {
         filtrosSet.clear();
-        renderMods();
         document.querySelectorAll('#mods-dropdown input').forEach(i => i.checked = false);
+        renderMods();
         return;
     }
 
@@ -385,21 +304,20 @@ function toggleFiltro(chk) {
     renderMods();
 }
 
-/* ============================================
-   RENDERIZAR GRID
-   ============================================ */
+/* ===========================
+   Renderizar Mods
+   =========================== */
 function renderMods() {
     const cont = document.getElementById("mods-section");
     cont.innerHTML = "";
 
     let lista = modsAuto;
-
     if (filtrosSet.size > 0) {
         lista = lista.filter(m => [...filtrosSet].every(f => m.categorias.includes(f)));
     }
 
     if (lista.length === 0) {
-        cont.innerHTML = "<p>No hay mods con esas categorías.</p>";
+        cont.innerHTML = "<p>No hay mods en esta categoría.</p>";
         return;
     }
 
@@ -410,30 +328,32 @@ function renderMods() {
                 <img src="${m.thumbnail}">
                 <div class="card-body">
                     <h5 class="card-title">${m.name}</h5>
-                    <small class="text-secondary d-block">Fecha: ${m.fecha}</small>
-                    <small class="text-secondary d-block mb-2">Categorias: ${m.categorias.join(", ")}</small>
-                    <p class="text-secondary">${m.desc.substring(0,130)}…</p>
+
+                    <small class="text-secondary d-block">
+                        ${m.fecha}
+                    </small>
+
+                    <small class="text-secondary d-block mb-2">
+                        Categorías: ${m.categorias.join(", ")}
+                    </small>
+
+                    <p class="text-secondary">
+                        ${m.desc.substring(0,130)}…
+                    </p>
                 </div>
             </div>
-        </div>
-        `;
+        </div>`;
     });
 }
 
-/* ============================================
-   MODAL — MOSTRAR
-   ============================================ */
+/* ===========================
+   Modal
+   =========================== */
 function abrirModal(videoURL) {
     const m = modsAuto.find(x => x.video === videoURL);
 
-    let vidID = "";
-    if (videoURL.includes("v=")) {
-        vidID = videoURL.split("v=")[1].split("&")[0];
-    } else {
-        vidID = videoURL.split("/").pop();
-    }
+    let vidID = videoURL.split("v=")[1]?.split("&")[0] || videoURL.split("/").pop();
 
-    // Imagen HD
     const maxRes = `https://i.ytimg.com/vi/${vidID}/maxresdefault.jpg`;
     const hq =     `https://i.ytimg.com/vi/${vidID}/hqdefault.jpg`;
 
@@ -442,9 +362,7 @@ function abrirModal(videoURL) {
     img.classList.add("neon-appear");
     img.onerror = () => img.src = hq;
 
-    // Fondo blur
     document.getElementById("modal-blur").style.backgroundImage = `url("${m.thumbnail}")`;
-
     document.getElementById("modal-title").innerText = m.name;
     document.getElementById("modal-fecha").innerText = "Publicado: " + m.fecha;
     document.getElementById("modal-categorias").innerText = "Categorías: " + m.categorias.join(", ");
@@ -462,58 +380,76 @@ function abrirModal(videoURL) {
     modal.show();
 }
 
+/* ===========================
+   Lightbox cerrar
+   =========================== */
 document.getElementById("lightbox-bg").onclick = () => {
     document.getElementById("lightbox-bg").style.display = "none";
 };
 
-/* ============================================
-   EXPORTAR JSON PARA GITHUB ACTIONS
-   ============================================ */
+/* ===================================================
+   EXPORTAR JSON SEGURO — SIN TOKEN — PARA GITHUB ACTIONS
+   =================================================== */
 async function exportarJSON() {
+
     if (modsAuto.length === 0) {
-        alert("No hay mods cargados para exportar.");
+        alert("No hay mods para exportar.");
         return;
     }
 
-    const modsStr = JSON.stringify(modsAuto);
+    const modsStr = JSON.stringify(modsAuto, null, 2);
 
-    await fetch(
-        "https://api.github.com/repos/RyujiSaiyan/ryujisaiyan.github.io/actions/workflows/update_mods.yml/dispatches",
-        {
-            method: "POST",
-            headers: {
-                "Accept": "application/vnd.github+json",
-                "Authorization": "Bearer MODS_TOKEN_REPLACED"
-            },
-            body: JSON.stringify({
-                ref: "main",
-                inputs: { mods_json: modsStr }
-            })
+    // GitHub requiere base64 para subir archivos
+    const contentBase64 = btoa(unescape(encodeURIComponent(modsStr)));
+
+    const url = "https://api.github.com/repos/RyujiSaiyan/ryujisaiyan.github.io/contents/trigger_mods.json";
+
+    // Necesitamos obtener SHA del archivo si ya existe
+    let sha = null;
+    try {
+        const resp = await fetch(url + "?ref=modsync");
+        if (resp.ok) {
+            const data = await resp.json();
+            sha = data.sha;
         }
-    );
+    } catch (e) {}
 
-    alert("Mods enviados a GitHub Actions ✔");
+    // SUBIR ARCHIVO A BRANCH "modsync" (GitHub Actions se activará)
+    await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/vnd.github+json"
+        },
+        body: JSON.stringify({
+            message: "Auto-sync mods",
+            content: contentBase64,
+            branch: "modsync",
+            sha: sha || undefined
+        })
+    });
+
+    alert("✔ Mods enviados. GitHub Actions actualizará mods.json automáticamente.");
 }
 
-/* ============================================
+/* ===========================
    BOTÓN OCULTO (Ctrl + M)
-   ============================================ */
+   =========================== */
 document.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.key.toLowerCase() === "m") {
-        if (confirm("¿Enviar mods a GitHub y actualizar mods.json?")) {
-            exportarJSON();
-        }
+        if (confirm("¿Enviar mods a GitHub?")) exportarJSON();
     }
 });
 
-/* ============================================
-   INICIO
-   ============================================ */
+/* ===========================
+   Iniciar carga
+   =========================== */
 cargarModsAutomaticos();
-
 </script>
 
-<!-- MODAL DE MODS -->
+
+<!-- ===========================
+     MODAL HTML
+     =========================== -->
 <div class="modal fade" id="modModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
 
@@ -555,4 +491,5 @@ cargarModsAutomaticos();
   </div>
 </div>
 
-<!-- FIN PARTE 2 -->
+</body>
+</html>
