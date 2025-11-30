@@ -2,7 +2,7 @@ name: Generar mods.json automáticamente
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # cada 6 horas
+    - cron: "* * * * *"   # cada 6 horas
   workflow_dispatch:        # permite ejecutarlo manualmente
 
 jobs:
