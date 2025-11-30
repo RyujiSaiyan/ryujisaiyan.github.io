@@ -276,7 +276,22 @@ const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
 const CACHE_TIME = 60 * 60 * 1000;
 
 // ==========================
-// FETCH YOUTUBE (solo para videos)
+// URL SANITIZER (Mega, etc.)
+// ==========================
+function limpiarURL(url) {
+    if (!url) return "";
+
+    return url
+        .replace(/\s*\.\s*/g, ".")
+        .replace(/\s+/g, "")
+        .replace(/\[dot\]/gi, ".")
+        .replace(/\(dot\)/gi, ".")
+        .replace(/dot/gi, ".")
+        .replace(/^http(s?):\/\//, "https://");
+}
+
+// ==========================
+// FETCH YOUTUBE
 // ==========================
 async function fetchYouTube() {
 
@@ -303,7 +318,6 @@ async function fetchYouTube() {
 // ==========================
 // RENDER VIDEOS
 // ==========================
-
 function renderVideos(items) {
     const cont = document.getElementById("youtube-feed");
     cont.innerHTML = "";
@@ -341,7 +355,6 @@ function renderVideos(items) {
 // ==========================
 // RENDER POPULAR
 // ==========================
-
 function renderPopular(items) {
     const vid = items[0];
     if (!vid) return;
@@ -357,23 +370,53 @@ function renderPopular(items) {
 }
 
 // ==========================
-// MODS DESDE mods.json
+// MODS AUTOMÁTICOS
 // ==========================
-
 let mods = [];
 let categoriasSet = new Set();
 
-function generarDropdown() {
-    const dd = document.getElementById("mods-dropdown");
-    dd.innerHTML = "";
+function parseModFromVideo(item) {
+    const title = item.snippet.title;
+    if (!title.startsWith("[Mod]")) return null;
 
-    categoriasSet.forEach(cat => {
-        dd.innerHTML += `
-        <label class="dropdown-item">
-            <input type="checkbox" value="${cat}" onchange="filtrarMods()" />
-            ${cat}
-        </label>`;
+    const videoID = item.id.videoId;
+    const desc = item.snippet.description;
+
+    let categorias = [];
+    let linkMod = "";
+    let textoDesc = desc;
+
+    const lines = desc.split("\n");
+
+    lines.forEach(l => {
+        const ln = l.trim();
+
+        if (ln.startsWith("Categorias:")) {
+            categorias = ln.replace("Categorias:", "")
+                           .split(",")
+                           .map(x => x.trim())
+                           .filter(x => x.length > 0);
+        }
+
+        if (ln.startsWith("Mod:")) {
+            linkMod = ln.replace("Mod:", "").trim();
+            linkMod = limpiarURL(linkMod);
+        }
     });
+
+    categorias.forEach(c => categoriasSet.add(c));
+
+    return {
+        name: title.replace("[Mod]", "").trim(),
+        fecha: item.snippet.publishedAt.substring(0,10),
+        categorias,
+        desc: textoDesc,
+        video: `https://www.youtube.com/watch?v=${videoID}`,
+        mod: linkMod,
+        thumbnail: item.snippet.thumbnails.high.url,
+        imagen_mod: `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`,
+        videoID
+    };
 }
 
 function renderMods() {
@@ -397,6 +440,19 @@ function renderMods() {
             </div>
           </div>
         </div>`;
+    });
+}
+
+function generarDropdown() {
+    const dd = document.getElementById("mods-dropdown");
+    dd.innerHTML = "";
+
+    categoriasSet.forEach(cat => {
+        dd.innerHTML += `
+        <label class="dropdown-item">
+            <input type="checkbox" value="${cat}" onchange="filtrarMods()" />
+            ${cat}
+        </label>`;
     });
 }
 
@@ -431,7 +487,6 @@ function filtrarMods() {
 // ==========================
 // MODAL
 // ==========================
-
 function abrirModal(videoID) {
     const m = mods.find(x => x.videoID === videoID);
 
@@ -447,7 +502,6 @@ function abrirModal(videoID) {
     document.getElementById("modal-blur").style.backgroundImage =
       `url('${m.thumbnail}')`;
 
-    // lightbox
     document.getElementById("modal-img").onclick = () => {
         document.getElementById("lightbox-img").src = m.imagen_mod;
         document.getElementById("lightbox-bg").style.display = "flex";
@@ -463,30 +517,41 @@ document.getElementById("lightbox-bg").onclick = () => {
 // ==========================
 // START
 // ==========================
-
 (async () => {
-
-    // Cargar videos con cache
     const data = await fetchYouTube();
     const items = data.items || [];
 
+    // Últimos videos
     renderVideos(items);
+
+    // Popular (primer video)
     renderPopular(items);
 
-    // Cargar mods desde mods.json generado por GitHub Actions
-    try {
-        mods = await fetch("mods.json?_=" + Date.now()).then(r => r.json());
-    } catch {
-        mods = [];
-    }
-
-    // Generar categorías
-    categoriasSet = new Set();
-    mods.forEach(m => m.categorias.forEach(c => categoriasSet.add(c)));
+    // Mods automáticos
+    mods = items.map(parseModFromVideo).filter(x => x !== null);
 
     generarDropdown();
     renderMods();
 
+    // =================================================
+    // ============== EXPORTAR MODS A CONSOLA ==========
+    // =================================================
+
+    console.log("📦 MODS DETECTADOS (copia y pega en tu mods.json):");
+
+    const exportData = mods.map(m => ({
+        name: m.name,
+        fecha: m.fecha,
+        categorias: m.categorias,
+        desc: m.desc,
+        video: m.video,
+        mod: m.mod,
+        thumbnail: m.thumbnail,
+        imagen_mod: m.imagen_mod,
+        videoID: m.videoID
+    }));
+
+    console.log(JSON.stringify(exportData, null, 2));
 })();
 </script>
 
