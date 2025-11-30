@@ -69,7 +69,7 @@ async function main() {
     do {
         const url =
             `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}` +
-            `&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50` +
+            `&channelId=${CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=50` +
             (nextPageToken ? `&pageToken=${nextPageToken}` : "");
 
         const resp = await fetch(url);
