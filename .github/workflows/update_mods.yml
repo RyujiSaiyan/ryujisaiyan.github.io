@@ -1,0 +1,44 @@
+name: Update Mods JSON
+
+on:
+  workflow_dispatch:
+    inputs:
+      mods_json:
+        description: "JSON de mods enviado desde la web"
+        required: true
+        type: string
+
+jobs:
+  update_mods:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Preparar entorno
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Crear archivo mods.json si no existe
+        run: |
+          if [ ! -f mods.json ]; then
+            echo "[]" > mods.json
+          fi
+
+      - name: Fusionar mods nuevos con mods existentes
+        run: |
+          echo '${{ github.event.inputs.mods_json }}' | jq . > new_mods.json
+          jq -s 'add | unique_by(.video) | sort_by(.fecha) | reverse' mods.json new_mods.json > merged.json
+          mv merged.json mods.json
+
+      - name: Commit y push
+        run: |
+          git config user.name "ModBot"
+          git config user.email "modbot@github.com"
+          git add mods.json
+          git commit -m "Auto-update mods.json"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.MODS_TOKEN }}
