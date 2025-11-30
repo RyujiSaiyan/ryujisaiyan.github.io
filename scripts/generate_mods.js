@@ -19,33 +19,37 @@ function limpiarURL(url) {
 
 // Parseo igual que tu función original
 function parseMod(item) {
-    if (!item.snippet.title.startsWith("[Mod]")) return null;
+    if (!item.snippet.title.trim().toLowerCase().startsWith("[mod]"))
+        return null;
 
     const videoID = item.id.videoId;
     const desc = item.snippet.description;
-    const lines = desc.split("\n");
 
     let categorias = [];
     let linkMod = "";
 
-    lines.forEach(l => {
-        const ln = l.trim();
-        if (ln.startsWith("Categorias:")) {
-            categorias = ln.replace("Categorias:", "")
-                           .split(",")
-                           .map(x => x.trim())
-                           .filter(x => x.length > 0);
+    desc.split("\n").forEach(line => {
+        let clean = line
+            .replace(/\u200B/g, "")   // ZERO WIDTH SPACE
+            .replace(/\u200E/g, "")   // LEFT-TO-RIGHT MARK
+            .trim();
+
+        if (clean.toLowerCase().startsWith("categorias")) {
+            const raw = clean.split(":")[1] || "";
+            categorias = raw
+                .split(",")
+                .map(x => x.trim())
+                .filter(Boolean);
         }
-        if (ln.startsWith("Mod:")) {
-            linkMod = limpiarURL(
-                ln.replace("Mod:", "").trim()
-            );
+
+        if (clean.toLowerCase().startsWith("mod:")) {
+            linkMod = limpiarURL(clean.split(":")[1].trim());
         }
     });
 
     return {
-        name: item.snippet.title.replace("[Mod]", "").trim(),
-        fecha: item.snippet.publishedAt.substring(0, 10),
+        name: item.snippet.title.replace(/\[mod\]/i, "").trim(),
+        fecha: item.snippet.publishedAt.substring(0,10),
         categorias,
         desc,
         video: `https://www.youtube.com/watch?v=${videoID}`,
@@ -55,6 +59,7 @@ function parseMod(item) {
         videoID
     };
 }
+
 
 async function main() {
     const url =
