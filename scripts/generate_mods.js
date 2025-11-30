@@ -2,10 +2,10 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 
 // CONFIG
-const API_KEY = process.env.MODS_TOKEN; // La API key se cargará desde Secrets
+const API_KEY = process.env.MODS_TOKEN;
 const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
 
-// Sanitiza URLs
+// Limpiar URLs
 function limpiarURL(url) {
     if (!url) return "";
     return url
@@ -17,13 +17,13 @@ function limpiarURL(url) {
         .replace(/^http(s?):\/\//, "https://");
 }
 
-// Parseo igual que tu función original
+// Parseo tolerante
 function parseMod(item) {
     if (!item.snippet.title.trim().toLowerCase().startsWith("[mod]"))
         return null;
 
     const videoID = item.id.videoId;
-    const desc = item.snippet.description;
+    const desc = item.snippet.description || "";
 
     let categorias = [];
     let linkMod = "";
@@ -60,25 +60,40 @@ function parseMod(item) {
     };
 }
 
-
 async function main() {
-    const url =
-      `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}` +
-      `&part=snippet,id&order=date&maxResults=50`;
+    let allItems = [];
+    let nextPageToken = "";
 
-    const resp = await fetch(url);
-    const data = await resp.json();
+    console.log("🔎 Buscando todos los videos del canal...");
 
-    const items = data.items || [];
-    const mods = items.map(parseMod).filter(Boolean);
+    do {
+        const url =
+            `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}` +
+            `&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50` +
+            (nextPageToken ? `&pageToken=${nextPageToken}` : "");
 
-    // Guardar JSON
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        allItems.push(...(data.items || []));
+        nextPageToken = data.nextPageToken || "";
+
+        console.log(`→ Encontrados ${allItems.length} videos hasta ahora...`);
+
+    } while (nextPageToken);
+
+    console.log("✔ Total videos encontrados:", allItems.length);
+
+    const mods = allItems
+        .map(parseMod)
+        .filter(Boolean)
+        .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
     fs.writeFileSync("mods.json", JSON.stringify(mods, null, 2));
-
     console.log("✔ mods.json generado con éxito:", mods.length, "mods");
 }
 
 main().catch(err => {
-    console.error("Error generando mods:", err);
+    console.error("❌ Error generando mods:", err);
     process.exit(1);
 });
