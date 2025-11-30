@@ -516,24 +516,69 @@ document.getElementById("lightbox-bg").onclick = () => {
 };
 
 // ==========================
+// CACHE DE MODS LOCAL (sin servidor)
+// ==========================
+function cargarModsLocal() {
+    try {
+        const m = localStorage.getItem("mods_cache");
+        return m ? JSON.parse(m) : [];
+    } catch {
+        return [];
+    }
+}
+
+function guardarModsLocal(lista) {
+    localStorage.setItem("mods_cache", JSON.stringify(lista));
+}
+
+
+// ==========================
 // START
 // ==========================
 (async () => {
+
+    // 1. Cargar mods previos desde localStorage
+    let modsGuardados = cargarModsLocal();
+
+    // 2. Obtener videos del canal con caché de 1h
     const data = await fetchYouTube();
     const items = data.items || [];
 
-    // Últimos videos
+    // Mostrar últimos videos
     renderVideos(items);
-
-    // Popular (primer video)
     renderPopular(items);
 
-    // Mods automáticos
-    mods = items.map(parseModFromVideo).filter(x => x !== null);
+    // 3. Buscar nuevos mods en los videos obtenidos
+    const modsNuevos = items
+        .map(parseModFromVideo)
+        .filter(x => x !== null);
+
+    // 4. Unir mods sin duplicarlos
+    let todosLosMods = [...modsGuardados];
+
+    modsNuevos.forEach(newMod => {
+        if (!todosLosMods.some(m => m.videoID === newMod.videoID)) {
+            todosLosMods.push(newMod);
+        }
+    });
+
+    // Ordenar por fecha
+    todosLosMods.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    // 5. Guardar en localStorage (persistente para el usuario)
+    guardarModsLocal(todosLosMods);
+
+    // 6. Cargar mods en la app
+    mods = todosLosMods;
+
+    // 7. Actualizar categorías y UI
+    categoriasSet = new Set();
+    mods.forEach(m => m.categorias.forEach(c => categoriasSet.add(c)));
 
     generarDropdown();
     renderMods();
 })();
+
 </script>
 
 </body>
