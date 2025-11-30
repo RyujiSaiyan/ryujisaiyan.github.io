@@ -15,64 +15,126 @@
 /* PALETA ANIME LAVANDA */
 /* -------------------- */
 :root {
-    --bs-body-bg: #0A1228;
-    --bs-body-color: #E8ECF9;
-
-    --bs-primary: #A39ACB;
-    --bs-primary-rgb: 163,154,203;
-
-    --bs-secondary: #9DA2C8;
-    --bs-secondary-rgb: 157,162,200;
-
-    --bs-dark: #1B1E24;
-    --bs-dark-rgb: 27,30,36;
-
-    --bs-border-color: #2F333D;
-
-    --bs-card-bg: #1B1E24;
-    --bs-card-border-color: #2F333D;
+    --lavanda: #A39ACB;
+    --lavanda-light: #c7bafd;
+    --bg-dark: #0A1228;
+    --card-bg: #1B1E24;
+    --border-dark: #2F333D;
 }
 
 body {
-    background: #0A1228;
-    color: var(--bs-body-color);
+    background: var(--bg-dark);
+    color: #E8ECF9;
     font-family: "Roboto", sans-serif;
 }
 
 .section-title {
-    border-left: 5px solid var(--bs-primary);
+    border-left: 5px solid var(--lavanda);
     padding-left: 12px;
     margin-top: 50px;
     margin-bottom: 20px;
     font-size: 1.6rem;
 }
 
-/* Cards */
-.card {
-    background: var(--bs-card-bg);
-    border: 1px solid var(--bs-border-color);
-    border-radius: 12px;
+/* ========================================================= */
+/* ==================== NETFLIX CAROUSEL ==================== */
+/* ========================================================= */
+
+.carousel-row {
+    position: relative;
     overflow: hidden;
-    transition: 0.2s ease;
-}
-.card:hover {
-    transform: translateY(-6px);
-    border-color: var(--bs-primary);
-    box-shadow: 0px 0px 12px rgba(163,154,203,0.4);
-}
-.card img {
-    object-fit: cover;
-    height: 180px;
 }
 
-/* Main video */
-.main-video iframe {
+.carousel-container {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 12px 0;
+}
+
+.carousel-container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.carousel-container::-webkit-scrollbar-thumb {
+    background: var(--lavanda);
+    border-radius: 5px;
+}
+
+.carousel-container::-webkit-scrollbar-track {
+    background: #111727;
+}
+
+/* TARJETAS TIPO NETFLIX — Hover C1 */
+.n-card {
+    min-width: 240px;
+    max-width: 240px;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px solid var(--border-dark);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s;
+    cursor: pointer;
+}
+
+.n-card:hover {
+    transform: scale(1.15);
+    border-color: var(--lavanda);
+    box-shadow: 0 0 25px rgba(163,154,203,0.6);
+    z-index: 3;
+}
+
+.n-card img {
     width: 100%;
-    height: 420px;
-    border-radius: 12px;
+    height: 150px;
+    object-fit: cover;
 }
 
-/* ===== MODAL ANIME PREMIUM ===== */
+.n-card .body {
+    padding: 12px;
+}
+
+/* FLECHAS ESTILO NETFLIX (N2) */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 55px;
+    height: 120px;
+    background: rgba(10, 18, 40, 0.55);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--lavanda);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.2s;
+    opacity: 0;
+}
+
+.carousel-row:hover .carousel-arrow {
+    opacity: 1;
+}
+
+.carousel-arrow:hover {
+    background: rgba(163,154,203,0.3);
+    color: var(--lavanda-light);
+}
+
+/* Left & Right */
+.carousel-arrow.left {
+    left: 0;
+}
+
+.carousel-arrow.right {
+    right: 0;
+}
+
+/* ======================== MODAL ======================== */
 
 .modal-bg-blur {
     position: absolute;
@@ -92,7 +154,7 @@ body {
     background: rgba(16, 22, 38, 0.85) !important;
     backdrop-filter: blur(6px);
     border-radius: 18px !important;
-    border: 1px solid #A39ACB !important;
+    border: 1px solid var(--lavanda) !important;
 }
 
 #modal-img {
@@ -104,35 +166,7 @@ body {
     cursor: zoom-in;
 }
 
-.modal-title {
-    color: #E8ECF9;
-    font-size: 1.6rem;
-    font-weight: bold;
-}
-
-.btn-anime-primary {
-    background: #A39ACB;
-    color: #101626;
-    font-weight: bold;
-    border-radius: 10px;
-}
-.btn-anime-primary:hover {
-    background: #c7bafd;
-    box-shadow: 0px 0px 14px rgba(163,154,203,0.8);
-}
-
-.btn-anime-secondary {
-    background: transparent;
-    border: 2px solid #A39ACB;
-    color: #E8ECF9;
-    font-weight: bold;
-    border-radius: 10px;
-}
-.btn-anime-secondary:hover {
-    background: rgba(163,154,203,0.2);
-}
-
-/* ========= LIGHTBOX ========= */
+/* LIGHTBOX */
 #lightbox-bg {
     display: none;
     position: fixed;
@@ -143,18 +177,15 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 #lightbox-img {
     max-width: 90%;
     max-height: 90%;
     border-radius: 18px;
-    border: 2px solid #A39ACB;
+    border: 2px solid var(--lavanda);
     box-shadow: 0 0 25px rgba(163,154,203,0.8);
 }
+#lightbox-bg:hover { cursor: zoom-out; }
 
-#lightbox-bg:hover {
-    cursor: zoom-out;
-}
 </style>
 </head>
 
@@ -183,7 +214,7 @@ body {
     <!-- SECCIÓN: MÁS POPULAR -->
     <h2 class="section-title">Más popular</h2>
     <div class="main-video mb-4">
-        <iframe id="popular-video" src="" allowfullscreen></iframe>
+        <iframe id="popular-video" src="" allowfullscreen style="width:100%;height:420px;border-radius:12px;"></iframe>
         <h3 id="popular-title" class="mt-3">Cargando...</h3>
         <small id="popular-date" class="text-secondary"></small>
         <p id="popular-desc" class="text-secondary mt-2">Obteniendo el video más visto...</p>
@@ -191,26 +222,28 @@ body {
 
     <!-- ÚLTIMOS VIDEOS -->
     <h2 class="section-title" id="videos">Últimos videos</h2>
-    <div id="youtube-feed" class="row g-4">
-        <p>Cargando videos....</p>
+
+    <div class="carousel-row">
+        <div class="carousel-arrow left" onclick="scrollCarousel('videos-carousel', -1)">❮</div>
+        <div class="carousel-arrow right" onclick="scrollCarousel('videos-carousel', 1)">❯</div>
+
+        <div id="videos-carousel" class="carousel-container">
+            <p>Cargando videos...</p>
+        </div>
     </div>
 
     <!-- MODS -->
     <h2 class="section-title" id="mods">Mods</h2>
 
-    <!-- Dropdown filtros -->
-    <div class="dropdown mb-3">
-      <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-        Filtrar por categoría
-      </button>
+    <div class="carousel-row">
+        <div class="carousel-arrow left" onclick="scrollCarousel('mods-carousel', -1)">❮</div>
+        <div class="carousel-arrow right" onclick="scrollCarousel('mods-carousel', 1)">❯</div>
 
-      <div class="dropdown-menu" id="mods-dropdown"></div>
+        <div id="mods-carousel" class="carousel-container">
+            <p>Cargando mods...</p>
+        </div>
     </div>
 
-    <!-- GRID DE MODS -->
-    <div class="row g-4" id="mods-section">
-        <p>Cargando mods...</p>
-    </div>
 </div>
 
 <!-- FOOTER -->
@@ -221,10 +254,8 @@ body {
 <!-- MODAL DE MODS -->
 <div class="modal fade" id="modModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-
     <div class="modal-content">
 
-      <!-- FONDO BORROSO -->
       <div id="modal-blur" class="modal-bg-blur"></div>
 
       <div class="modal-header border-0">
@@ -234,28 +265,20 @@ body {
 
       <div class="modal-body">
         <div class="row g-4 align-items-start">
-
           <div class="col-12 col-md-5 text-center">
             <img id="modal-img">
           </div>
-
           <div class="col-12 col-md-7">
-
             <small id="modal-fecha" class="text-secondary d-block mb-1"></small>
             <small id="modal-categorias" class="text-secondary d-block mb-2"></small>
-
             <p id="modal-desc" class="mb-4"></p>
-
-            <a id="modal-video" target="_blank" class="btn btn-anime-primary w-100 mb-2">Ver Video</a>
-            <a id="modal-download" target="_blank" class="btn btn-anime-secondary w-100">Descargar Mod</a>
-
+            <a id="modal-video" target="_blank" class="btn btn-primary w-100 mb-2">Ver Video</a>
+            <a id="modal-download" target="_blank" class="btn btn-secondary w-100">Descargar Mod</a>
           </div>
-
         </div>
       </div>
 
     </div>
-
   </div>
 </div>
 
@@ -265,46 +288,37 @@ body {
 </div>
 
 <script>
-// ==========================
-// CONFIG
-// ==========================
+/* ========================================================= */
+/* ==================== CONFIG & HELPERS =================== */
+/* ========================================================= */
 
 const API_KEY = "AIzaSyCrLWKQFw9pW-YRuPtjG10yj0rycxJLvHE";
 const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
-
-// Cache: 1 hora
 const CACHE_TIME = 60 * 60 * 1000;
 
-// ==========================
-// URL SANITIZER (Mega, etc.)
-// ==========================
+function scrollCarousel(id, dir) {
+    const el = document.getElementById(id);
+    el.scrollBy({ left: dir * 400, behavior: "smooth" });
+}
+
 function limpiarURL(url) {
     if (!url) return "";
-
     return url
         .replace(/\s*\.\s*/g, ".")
         .replace(/\s+/g, "")
         .replace(/\[dot\]/gi, ".")
         .replace(/\(dot\)/gi, ".")
-        .replace(/dot/gi, ".")
         .replace(/^http(s?):\/\//, "https://");
 }
 
-// ==========================
-// FETCH YOUTUBE
-// ==========================
 async function fetchYouTube() {
-
     const cache = localStorage.getItem("yt_cache");
     const cacheTime = localStorage.getItem("yt_cache_time");
 
-    if (cache && cacheTime && (Date.now() - cacheTime) < CACHE_TIME) {
+    if (cache && cacheTime && (Date.now() - cacheTime) < CACHE_TIME)
         return JSON.parse(cache);
-    }
 
-    const url =
-      `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}` +
-      `&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
 
     const resp = await fetch(url);
     const data = await resp.json();
@@ -315,65 +329,47 @@ async function fetchYouTube() {
     return data;
 }
 
-// ==========================
-// RENDER VIDEOS
-// ==========================
+/* ========================================================= */
+/* ==================== RENDER VIDEOS ====================== */
+/* ========================================================= */
+
 function renderVideos(items) {
-    const cont = document.getElementById("youtube-feed");
+    const cont = document.getElementById("videos-carousel");
     cont.innerHTML = "";
 
     const videos = items.filter(i => i.id.videoId);
 
-    videos.slice(0, 3).forEach(item => {
+    videos.slice(0, 12).forEach(item => {
         cont.innerHTML += `
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100">
-            <img src="${item.snippet.thumbnails.high.url}" class="card-img-top">
-
-            <div class="card-body">
-              <h5 class="card-title">${item.snippet.title}</h5>
-
-              <small class="text-secondary d-block mb-2">
-                ${item.snippet.publishedAt.substring(0,10)}
-              </small>
-
-              <p class="card-text text-secondary">
-                ${item.snippet.description.substring(0,120)}...
-              </p>
-
-              <a class="btn btn-primary w-100"
-                 target="_blank"
-                 href="https://www.youtube.com/watch?v=${item.id.videoId}">
-                 Ver video
-              </a>
+        <div class="n-card">
+            <img src="${item.snippet.thumbnails.medium.url}">
+            <div class="body">
+                <h6>${item.snippet.title.substring(0,40)}...</h6>
+                <small class="text-secondary">${item.snippet.publishedAt.substring(0,10)}</small>
             </div>
-          </div>
         </div>`;
     });
 }
 
-// ==========================
-// RENDER POPULAR
-// ==========================
+/* ========================================================= */
+/* ===================== RENDER POPULAR ==================== */
+/* ========================================================= */
 function renderPopular(items) {
     const vid = items[0];
     if (!vid) return;
 
     document.getElementById("popular-video").src =
       `https://www.youtube.com/embed/${vid.id.videoId}`;
-
     document.getElementById("popular-title").innerText = vid.snippet.title;
-    document.getElementById("popular-date").innerText =
-      vid.snippet.publishedAt.substring(0,10);
-    document.getElementById("popular-desc").innerText =
-      vid.snippet.description.substring(0,200);
+    document.getElementById("popular-date").innerText = vid.snippet.publishedAt.substring(0,10);
+    document.getElementById("popular-desc").innerText = vid.snippet.description.substring(0,200);
 }
 
-// ==========================
-// MODS AUTOMÁTICOS
-// ==========================
+/* ========================================================= */
+/* ===================== PARSE MODS ======================== */
+/* ========================================================= */
+
 let mods = [];
-let categoriasSet = new Set();
 
 function parseModFromVideo(item) {
     const title = item.snippet.title;
@@ -392,19 +388,23 @@ function parseModFromVideo(item) {
         const ln = l.trim();
 
         if (ln.startsWith("Categorias:")) {
-            categorias = ln.replace("Categorias:", "")
-                           .split(",")
-                           .map(x => x.trim())
-                           .filter(x => x.length > 0);
+            let raw = ln.replace("Categorias:", "").trim();
+
+            raw = raw.split(".")[0];
+            raw = raw.split("http")[0];
+            raw = raw.split("Resubire")[0];
+            raw = raw.split("|")[0];
+            raw = raw.split("- ")[0];
+
+            categorias = raw.split(",")
+                             .map(x => x.trim())
+                             .filter(x => x.length > 0);
         }
 
         if (ln.startsWith("Mod:")) {
-            linkMod = ln.replace("Mod:", "").trim();
-            linkMod = limpiarURL(linkMod);
+            linkMod = limpiarURL(ln.replace("Mod:", "").trim());
         }
     });
-
-    categorias.forEach(c => categoriasSet.add(c));
 
     return {
         name: title.replace("[Mod]", "").trim(),
@@ -419,88 +419,42 @@ function parseModFromVideo(item) {
     };
 }
 
-function renderMods() {
-    const cont = document.getElementById("mods-section");
-    cont.innerHTML = "";
+/* ========================================================= */
+/* ===================== RENDER MODS ======================= */
+/* ========================================================= */
 
-    if (mods.length === 0) {
-        cont.innerHTML = "<p>No hay mods aún.</p>";
-        return;
-    }
+function renderMods() {
+    const cont = document.getElementById("mods-carousel");
+    cont.innerHTML = "";
 
     mods.forEach(m => {
         cont.innerHTML += `
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100" onclick="abrirModal('${m.videoID}')">
-            <img src="${m.thumbnail}" class="card-img-top" />
-            <div class="card-body">
-              <h5 class="card-title">${m.name}</h5>
-              <small class="text-secondary">${m.fecha}</small>
-              <p class="text-secondary mt-2">${m.desc.substring(0,120)}...</p>
+        <div class="n-card" onclick="abrirModal('${m.videoID}')">
+            <img src="${m.thumbnail}">
+            <div class="body">
+                <h6>${m.name.substring(0,40)}...</h6>
+                <small class="text-secondary">${m.fecha}</small>
             </div>
-          </div>
         </div>`;
     });
 }
 
-function generarDropdown() {
-    const dd = document.getElementById("mods-dropdown");
-    dd.innerHTML = "";
+/* ========================================================= */
+/* ======================== MODAL ========================== */
+/* ========================================================= */
 
-    categoriasSet.forEach(cat => {
-        dd.innerHTML += `
-        <label class="dropdown-item">
-            <input type="checkbox" value="${cat}" onchange="filtrarMods()" />
-            ${cat}
-        </label>`;
-    });
-}
-
-function filtrarMods() {
-    const checks = [...document.querySelectorAll("#mods-dropdown input")];
-    const active = checks.filter(c => c.checked).map(c => c.value);
-
-    if (active.length === 0) return renderMods();
-
-    const filtrados = mods.filter(m =>
-        active.every(c => m.categorias.includes(c))
-    );
-
-    const cont = document.getElementById("mods-section");
-    cont.innerHTML = "";
-
-    filtrados.forEach(m => {
-        cont.innerHTML += `
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100" onclick="abrirModal('${m.videoID}')">
-            <img src="${m.thumbnail}" class="card-img-top" />
-            <div class="card-body">
-              <h5 class="card-title">${m.name}</h5>
-              <small class="text-secondary">${m.fecha}</small>
-              <p class="text-secondary mt-2">${m.desc.substring(0,120)}...</p>
-            </div>
-          </div>
-        </div>`;
-    });
-}
-
-// ==========================
-// MODAL
-// ==========================
 function abrirModal(videoID) {
     const m = mods.find(x => x.videoID === videoID);
 
     document.getElementById("modal-img").src = m.imagen_mod;
     document.getElementById("modal-title").innerText = m.name;
     document.getElementById("modal-fecha").innerText = "Publicado: " + m.fecha;
-    document.getElementById("modal-categorias").innerText =
-      "Categorías: " + m.categorias.join(", ");
+    document.getElementById("modal-categorias").innerText = "Categorías: " + m.categorias.join(", ");
     document.getElementById("modal-desc").innerText = m.desc;
     document.getElementById("modal-video").href = m.video;
     document.getElementById("modal-download").href = m.mod;
 
-    document.getElementById("modal-blur").style.backgroundImage =
-      `url('${m.thumbnail}')`;
+    document.getElementById("modal-blur").style.backgroundImage = `url('${m.thumbnail}')`;
 
     document.getElementById("modal-img").onclick = () => {
         document.getElementById("lightbox-img").src = m.imagen_mod;
@@ -514,45 +468,25 @@ document.getElementById("lightbox-bg").onclick = () => {
     document.getElementById("lightbox-bg").style.display = "none";
 };
 
-// ==========================
-// START
-// ==========================
+/* ========================================================= */
+/* ========================= START ========================= */
+/* ========================================================= */
+
 (async () => {
     const data = await fetchYouTube();
     const items = data.items || [];
 
-    // Últimos videos
     renderVideos(items);
-
-    // Popular (primer video)
     renderPopular(items);
 
-    // Mods automáticos
     mods = items.map(parseModFromVideo).filter(x => x !== null);
-
-    generarDropdown();
     renderMods();
 
-    // =================================================
-    // ============== EXPORTAR MODS A CONSOLA ==========
-    // =================================================
-
-    console.log("📦 MODS DETECTADOS (copia y pega en tu mods.json):");
-
-    const exportData = mods.map(m => ({
-        name: m.name,
-        fecha: m.fecha,
-        categorias: m.categorias,
-        desc: m.desc,
-        video: m.video,
-        mod: m.mod,
-        thumbnail: m.thumbnail,
-        imagen_mod: m.imagen_mod,
-        videoID: m.videoID
-    }));
-
-    console.log(JSON.stringify(exportData, null, 2));
+    /* EXPORT MODS TO CONSOLE */
+    console.log("📦 MODS DETECTADOS (copia y pega en mods.json):");
+    console.log(JSON.stringify(mods, null, 2));
 })();
+
 </script>
 
 </body>
