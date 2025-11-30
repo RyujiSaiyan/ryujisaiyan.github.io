@@ -1,12 +1,1 @@
-[
-    {
-        "name": "TEST Mod 1 – Goku (Prueba)",
-        "fecha": "2025-01-15",
-        "categorias": ["Dragon Ball", "Anime"],
-        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        "desc": "Este es un mod de prueba que usa un video real de YouTube para verificar el sistema.",
-        "mod": "https://mega.nz/example1",
-        "imagen_mod": "https://picsum.photos/600/800?random=1",
-        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
-    }
-]
+[]
