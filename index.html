@@ -85,12 +85,8 @@ body {
     filter: blur(18px);
     opacity: 0.35;
     border-radius: 18px;
-}
-
-.modal-bg-blur {
     pointer-events: none !important;
 }
-
 
 .modal-content {
     position: relative;
@@ -308,7 +304,7 @@ const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
 
 async function cargarUltimosVideos() {
     const url = 
-    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&pageToken=&maxResults=3`;
+    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&pageToken=&maxResults=4`;
 
     const resp = await fetch(url);
     const data = await resp.json();
@@ -319,7 +315,7 @@ async function cargarUltimosVideos() {
     data.items.forEach(item => {
         if (item.id.videoId) {
             cont.innerHTML += `
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-3">
               <div class="card h-100">
                 <img src="${item.snippet.thumbnails.high.url}" class="card-img-top">
 
@@ -368,17 +364,81 @@ cargarUltimosVideos();
 cargarPopular();
 </script>
 
-<!-- SISTEMA DE MODS -->
+<!-- SISTEMA AUTOMÁTICO DE MODS -->
 <script>
 let mods = [];
 let categorias = new Set();
 let filtros = new Set();
 
-async function cargarMods() {
-    const resp = await fetch("mods.json");
-    mods = await resp.json();
+// Sanitizar URL del mod (quita espacios, "dot", etc.)
+function limpiarURL(url) {
+    if (!url) return "";
+    return url
+        .replace(/\s*\.\s*/g, ".")   
+        .replace(/\s+/g, "")         
+        .replace(/\[dot\]/gi, ".")
+        .replace(/dot/gi, ".")
+        .replace(/\(dot\)/gi, ".")
+        .replace(/\[.\]/g, ".")
+        .replace(/\.{2,}/g, ".")
+        .replace(/^http(s?):\/\//, "https://");
+}
 
-    mods.forEach(m => m.categorias.forEach(c => categorias.add(c)));
+// Cargar mods desde videos del canal
+async function cargarMods() {
+
+    const url =
+    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
+
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    data.items.forEach(item => {
+        if (!item.id.videoId) return;
+
+        const title = item.snippet.title;
+
+        if (!title.startsWith("[Mod]")) return;
+
+        const descripcion = item.snippet.description;
+
+        let categoriasTxt = "";
+        let modLink = "";
+
+        descripcion.split("\n").forEach(line => {
+            line = line.trim();
+
+            if (line.startsWith("Categorias:")) {
+                categoriasTxt = line.replace("Categorias:", "").trim();
+            }
+
+            if (line.startsWith("Mod:")) {
+                modLink = line.replace("Mod:", "").trim();
+            }
+        });
+
+        const categoriasArr =
+            categoriasTxt.split(",")
+            .map(c => c.trim())
+            .filter(x => x.length > 0);
+
+        categoriasArr.forEach(c => categorias.add(c));
+
+        const videoID = item.id.videoId;
+
+        const modObj = {
+            name: title.replace("[Mod]", "").trim(),
+            fecha: item.snippet.publishedAt.substring(0,10),
+            categorias: categoriasArr,
+            video: `https://www.youtube.com/watch?v=${videoID}`,
+            desc: descripcion.split("Categorias:")[0].trim(),
+            mod: limpiarURL(modLink),
+            imagen_mod: `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`,
+            thumbnail: item.snippet.thumbnails.high.url
+        };
+
+        mods.push(modObj);
+    });
 
     generarDropdown();
     renderMods();
@@ -458,12 +518,7 @@ function renderMods() {
 function abrirModal(nombre) {
     const m = mods.find(x => x.name === nombre);
 
-    let videoID = "";
-    if (m.video.includes("v=")) {
-        videoID = m.video.split("v=")[1].split("&")[0];
-    } else {
-        videoID = m.video.split("/").pop();
-    }
+    let videoID = m.video.split("v=")[1];
 
     const maxRes = `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`;
     const hq =     `https://i.ytimg.com/vi/${videoID}/hqdefault.jpg`;
