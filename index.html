@@ -1,121 +1,159 @@
 <!DOCTYPE html>
 <html lang="es" data-bs-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>Mods Automáticos – RyujiSaiyan</title>
+<title>Mi Blog Anime Dark</title>
 
 <!-- BOOTSTRAP -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
-/* ==========================================
-   PALETA ANIME LAVANDA + DARK
-   ========================================== */
+/* -------------------- */
+/* PALETA ANIME LAVANDA */
+/* -------------------- */
 :root {
-    --bg: #0A1228;
-    --text: #E8ECF9;
-    --primary: #A39ACB;
-    --primary-glow: rgba(163,154,203,0.65);
-    --card-bg: #111522;
-    --border: #2F333D;
+    --bs-body-bg: #0A1228;
+    --bs-body-color: #E8ECF9;
+
+    --bs-primary: #A39ACB;
+    --bs-primary-rgb: 163,154,203;
+
+    --bs-secondary: #9DA2C8;
+    --bs-secondary-rgb: 157,162,200;
+
+    --bs-dark: #1B1E24;
+    --bs-dark-rgb: 27,30,36;
+
+    --bs-border-color: #2F333D;
+
+    --bs-card-bg: #1B1E24;
+    --bs-card-border-color: #2F333D;
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
+    background: #0A1228;
+    color: var(--bs-body-color);
     font-family: "Roboto", sans-serif;
 }
 
-/* TITULOS */
 .section-title {
-    border-left: 5px solid var(--primary);
+    border-left: 5px solid var(--bs-primary);
     padding-left: 12px;
     margin-top: 50px;
     margin-bottom: 20px;
     font-size: 1.6rem;
 }
 
-/* CARDS */
+/* Cards */
 .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
+    background: var(--bs-card-bg);
+    border: 1px solid var(--bs-border-color);
     border-radius: 12px;
     overflow: hidden;
-    transition: 0.18s ease;
+    transition: 0.2s ease;
 }
 .card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 0 16px var(--primary-glow);
+    border-color: var(--bs-primary);
+    box-shadow: 0px 0px 12px rgba(163,154,203,0.4);
 }
 .card img {
-    height: 180px;
     object-fit: cover;
+    height: 180px;
 }
 
-/* MAIN VIDEO */
+/* Main video */
 .main-video iframe {
     width: 100%;
-    height: 430px;
-    border-radius: 16px;
+    height: 420px;
+    border-radius: 12px;
 }
 
-/* MODAL */
+/* ===== MODAL ANIME PREMIUM ===== */
+
 .modal-bg-blur {
     position: absolute;
     inset: 0;
     z-index: 1;
-    filter: blur(20px);
-    opacity: 0.32;
     background-size: cover !important;
     background-position: center !important;
-    border-radius: 16px;
+    filter: blur(18px);
+    opacity: 0.35;
+    border-radius: 18px;
+    pointer-events: none !important;
 }
 
 .modal-content {
     position: relative;
-    z-index: 3;
-    background: rgba(10, 15, 30, 0.85) !important;
+    z-index: 2;
+    background: rgba(16, 22, 38, 0.85) !important;
     backdrop-filter: blur(6px);
-    border: 1px solid var(--primary);
-    border-radius: 18px;
+    border-radius: 18px !important;
+    border: 1px solid #A39ACB !important;
 }
 
 #modal-img {
     width: 100%;
-    border-radius: 14px;
-    border: 2px solid var(--primary);
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    max-width: 360px;
+    border-radius: 16px;
+    border: 2px solid rgba(163,154,203,0.5);
+    box-shadow: 0px 0px 25px rgba(0,0,0,0.6);
+    cursor: zoom-in;
 }
 
-/* NEON ANIMACIÓN */
-.neon-appear {
-    animation: neonPop 0.55s ease forwards;
-}
-@keyframes neonPop {
-    0% { opacity: 0; transform: scale(0.8); }
-    60% { opacity: 1; transform: scale(1.04); box-shadow: 0 0 24px var(--primary-glow);}
-    100% { transform: scale(1); box-shadow: 0 0 16px var(--primary-glow);}
+.modal-title {
+    color: #E8ECF9;
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
-/* LIGHTBOX */
+.btn-anime-primary {
+    background: #A39ACB;
+    color: #101626;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.btn-anime-primary:hover {
+    background: #c7bafd;
+    box-shadow: 0px 0px 14px rgba(163,154,203,0.8);
+}
+
+.btn-anime-secondary {
+    background: transparent;
+    border: 2px solid #A39ACB;
+    color: #E8ECF9;
+    font-weight: bold;
+    border-radius: 10px;
+}
+.btn-anime-secondary:hover {
+    background: rgba(163,154,203,0.2);
+}
+
+/* ========= LIGHTBOX ========= */
 #lightbox-bg {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.85);
-    z-index: 999999;
+    backdrop-filter: blur(5px);
+    z-index: 99999;
     justify-content: center;
     align-items: center;
 }
+
 #lightbox-img {
     max-width: 90%;
     max-height: 90%;
-    border-radius: 14px;
-    border: 2px solid var(--primary);
-    animation: neonPop 0.5s ease forwards;
+    border-radius: 18px;
+    border: 2px solid #A39ACB;
+    box-shadow: 0 0 25px rgba(163,154,203,0.8);
+}
+
+#lightbox-bg:hover {
+    cursor: zoom-out;
 }
 </style>
 </head>
@@ -124,7 +162,7 @@ body {
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-  <a class="navbar-brand fw-bold" href="#">RyujiSaiyan</a>
+  <a class="navbar-brand fw-bold" href="#">MiBlog</a>
 
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
     <span class="navbar-toggler-icon"></span>
@@ -132,328 +170,61 @@ body {
 
   <div class="collapse navbar-collapse" id="navMenu">
     <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
       <li class="nav-item"><a class="nav-link" href="#videos">Videos</a></li>
-      <li class="nav-item"><a class="nav-link" href="#mods">Mods Automáticos</a></li>
+      <li class="nav-item"><a class="nav-link" href="#mods">Mods</a></li>
     </ul>
   </div>
 </nav>
 
-<div class="container py-4">
+<!-- CONTENIDO -->
+<div class="container-fluid py-4">
 
     <!-- SECCIÓN: MÁS POPULAR -->
     <h2 class="section-title">Más popular</h2>
-
     <div class="main-video mb-4">
-        <iframe id="popular-video" allowfullscreen></iframe>
-        <h3 id="popular-title" class="mt-3">Cargando…</h3>
+        <iframe id="popular-video" src="" allowfullscreen></iframe>
+        <h3 id="popular-title" class="mt-3">Cargando...</h3>
         <small id="popular-date" class="text-secondary"></small>
-        <p id="popular-desc" class="text-secondary mt-2"></p>
+        <p id="popular-desc" class="text-secondary mt-2">Obteniendo el video más visto...</p>
     </div>
 
     <!-- ÚLTIMOS VIDEOS -->
     <h2 class="section-title" id="videos">Últimos videos</h2>
     <div id="youtube-feed" class="row g-4">
-        <p>Cargando…</p>
+        <p>Cargando videos....</p>
     </div>
 
     <!-- MODS -->
-    <h2 class="section-title" id="mods">Mods Automáticos</h2>
+    <h2 class="section-title" id="mods">Mods</h2>
 
     <!-- Dropdown filtros -->
     <div class="dropdown mb-3">
       <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-        Filtrar categorías
+        Filtrar por categoría
       </button>
+
       <div class="dropdown-menu" id="mods-dropdown"></div>
     </div>
 
-    <!-- GRID MODS -->
+    <!-- GRID DE MODS -->
     <div class="row g-4" id="mods-section">
-        <p>Cargando mods…</p>
+        <p>Cargando mods...</p>
     </div>
-
 </div>
 
-<footer class="text-center py-4 bg-dark mt-5">
-    © 2025 - RyujiSaiyan · Sistema Automático de Mods
+<!-- FOOTER -->
+<footer class="text-center py-4 mt-5 bg-dark">
+    © 2025 - Mi Blog Anime Dark · Todos los derechos reservados
 </footer>
 
-<!-- LIGHTBOX -->
-<div id="lightbox-bg"><img id="lightbox-img"></div>
-
-<!-- ===========================
-     SISTEMA DE MODS AUTOMÁTICOS
-     =========================== -->
-<script>
-const API_KEY = "AIzaSyCrLWKQFw9pW-YRuPtjG10yj0rycxJLvHE";
-const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
-
-let modsAuto = [];
-let categoriasSet = new Set();
-let filtrosSet = new Set();
-
-/* ===========================
-   Extraer Categorías
-   =========================== */
-function extraerCategorias(desc) {
-    let lines = desc.replace(/\r/g, "").split("\n").map(l => l.trim());
-    let linea = lines.find(l => l.toLowerCase().startsWith("categorias:"));
-    if (!linea) return [];
-
-    linea = linea.replace(/categorias:/i, "").trim();
-    let cats = linea.split(",").map(c => c.trim());
-
-    return cats.filter(c =>
-        c.length > 0 &&
-        !c.toLowerCase().includes("http") &&
-        !c.match(/mod:/i) &&
-        !c.match(/resub/i)
-    );
-}
-
-/* ===========================
-   Extraer Link del Mod
-   =========================== */
-function extraerLinkMod(desc) {
-    let lines = desc.replace(/\r/g, "").split("\n").map(l => l.trim());
-    let linea = lines.find(l => l.toLowerCase().startsWith("mod:"));
-    if (!linea) return "";
-
-    linea = linea.replace(/mod:/i, "").trim();
-    linea = linea.replace(" . ", ".").replace(" .", ".").replace(". ", ".");
-
-    return linea.trim();
-}
-
-/* ===========================
-   Cargar MODS desde YouTube
-   =========================== */
-async function cargarModsAutomaticos() {
-    const url =
-    `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=40`;
-
-    const resp = await fetch(url);
-    const data = await resp.json();
-
-    modsAuto = [];
-
-    data.items.forEach(item => {
-        if (!item.id.videoId) return;
-        if (!item.snippet.title.toLowerCase().includes("[mod]")) return;
-
-        let desc = item.snippet.description || "";
-        let cats = extraerCategorias(desc);
-        let modLink = extraerLinkMod(desc);
-
-        let vid = item.id.videoId;
-        let maxRes = `https://i.ytimg.com/vi/${vid}/maxresdefault.jpg`;
-        let hq =     `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
-
-        modsAuto.push({
-            name: item.snippet.title.replace("[Mod]", "").trim(),
-            fecha: item.snippet.publishedAt.substring(0,10),
-            categorias: cats,
-            video: `https://www.youtube.com/watch?v=${vid}`,
-            mod: modLink,
-            desc: desc,
-            thumbnail: maxRes,
-            imagen_mod: maxRes
-        });
-
-        cats.forEach(c => categoriasSet.add(c));
-    });
-
-    generarDropdownMods();
-    renderMods();
-}
-
-/* ===========================
-   Generar Filtros
-   =========================== */
-function generarDropdownMods() {
-    const dd = document.getElementById("mods-dropdown");
-    dd.innerHTML = `
-        <label class="dropdown-item">
-            <input type="checkbox" value="ALL" onchange="toggleFiltro(this)"> Mostrar todos
-        </label>
-        <hr class="dropdown-divider">
-    `;
-    categoriasSet.forEach(cat => {
-        dd.innerHTML += `
-        <label class="dropdown-item">
-            <input type="checkbox" value="${cat}" onchange="toggleFiltro(this)"> ${cat}
-        </label>`;
-    });
-}
-
-/* ===========================
-   Aplicar Filtro
-   =========================== */
-function toggleFiltro(chk) {
-    if (chk.value === "ALL") {
-        filtrosSet.clear();
-        document.querySelectorAll('#mods-dropdown input').forEach(i => i.checked = false);
-        renderMods();
-        return;
-    }
-
-    if (chk.checked) filtrosSet.add(chk.value);
-    else filtrosSet.delete(chk.value);
-
-    renderMods();
-}
-
-/* ===========================
-   Renderizar Mods
-   =========================== */
-function renderMods() {
-    const cont = document.getElementById("mods-section");
-    cont.innerHTML = "";
-
-    let lista = modsAuto;
-    if (filtrosSet.size > 0) {
-        lista = lista.filter(m => [...filtrosSet].every(f => m.categorias.includes(f)));
-    }
-
-    if (lista.length === 0) {
-        cont.innerHTML = "<p>No hay mods en esta categoría.</p>";
-        return;
-    }
-
-    lista.forEach(m => {
-        cont.innerHTML += `
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100" onclick="abrirModal('${m.video}')">
-                <img src="${m.thumbnail}">
-                <div class="card-body">
-                    <h5 class="card-title">${m.name}</h5>
-
-                    <small class="text-secondary d-block">
-                        ${m.fecha}
-                    </small>
-
-                    <small class="text-secondary d-block mb-2">
-                        Categorías: ${m.categorias.join(", ")}
-                    </small>
-
-                    <p class="text-secondary">
-                        ${m.desc.substring(0,130)}…
-                    </p>
-                </div>
-            </div>
-        </div>`;
-    });
-}
-
-/* ===========================
-   Modal
-   =========================== */
-function abrirModal(videoURL) {
-    const m = modsAuto.find(x => x.video === videoURL);
-
-    let vidID = videoURL.split("v=")[1]?.split("&")[0] || videoURL.split("/").pop();
-
-    const maxRes = `https://i.ytimg.com/vi/${vidID}/maxresdefault.jpg`;
-    const hq =     `https://i.ytimg.com/vi/${vidID}/hqdefault.jpg`;
-
-    const img = document.getElementById("modal-img");
-    img.src = maxRes;
-    img.classList.add("neon-appear");
-    img.onerror = () => img.src = hq;
-
-    document.getElementById("modal-blur").style.backgroundImage = `url("${m.thumbnail}")`;
-    document.getElementById("modal-title").innerText = m.name;
-    document.getElementById("modal-fecha").innerText = "Publicado: " + m.fecha;
-    document.getElementById("modal-categorias").innerText = "Categorías: " + m.categorias.join(", ");
-    document.getElementById("modal-desc").innerText = m.desc;
-
-    document.getElementById("modal-video").href = m.video;
-    document.getElementById("modal-download").href = m.mod;
-
-    img.onclick = () => {
-        document.getElementById("lightbox-img").src = img.src;
-        document.getElementById("lightbox-bg").style.display = "flex";
-    };
-
-    const modal = new bootstrap.Modal(document.getElementById("modModal"));
-    modal.show();
-}
-
-/* ===========================
-   Lightbox cerrar
-   =========================== */
-document.getElementById("lightbox-bg").onclick = () => {
-    document.getElementById("lightbox-bg").style.display = "none";
-};
-
-/* ===================================================
-   EXPORTAR JSON SEGURO — SIN TOKEN — PARA GITHUB ACTIONS
-   =================================================== */
-async function exportarJSON() {
-
-    if (modsAuto.length === 0) {
-        alert("No hay mods para exportar.");
-        return;
-    }
-
-    const modsStr = JSON.stringify(modsAuto, null, 2);
-
-    // GitHub requiere base64 para subir archivos
-    const contentBase64 = btoa(unescape(encodeURIComponent(modsStr)));
-
-    const url = "https://api.github.com/repos/RyujiSaiyan/ryujisaiyan.github.io/contents/trigger_mods.json";
-
-    // Necesitamos obtener SHA del archivo si ya existe
-    let sha = null;
-    try {
-        const resp = await fetch(url + "?ref=modsync");
-        if (resp.ok) {
-            const data = await resp.json();
-            sha = data.sha;
-        }
-    } catch (e) {}
-
-    // SUBIR ARCHIVO A BRANCH "modsync" (GitHub Actions se activará)
-    await fetch(url, {
-        method: "PUT",
-        headers: {
-            "Accept": "application/vnd.github+json"
-        },
-        body: JSON.stringify({
-            message: "Auto-sync mods",
-            content: contentBase64,
-            branch: "modsync",
-            sha: sha || undefined
-        })
-    });
-
-    alert("✔ Mods enviados. GitHub Actions actualizará mods.json automáticamente.");
-}
-
-/* ===========================
-   BOTÓN OCULTO (Ctrl + M)
-   =========================== */
-document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key.toLowerCase() === "m") {
-        if (confirm("¿Enviar mods a GitHub?")) exportarJSON();
-    }
-});
-
-/* ===========================
-   Iniciar carga
-   =========================== */
-cargarModsAutomaticos();
-</script>
-
-
-<!-- ===========================
-     MODAL HTML
-     =========================== -->
+<!-- MODAL DE MODS -->
 <div class="modal fade" id="modModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
 
     <div class="modal-content">
 
+      <!-- FONDO BORROSO -->
       <div id="modal-blur" class="modal-bg-blur"></div>
 
       <div class="modal-header border-0">
@@ -462,33 +233,308 @@ cargarModsAutomaticos();
       </div>
 
       <div class="modal-body">
+        <div class="row g-4 align-items-start">
 
-        <div class="row g-4">
-
-          <div class="col-12 col-md-5">
+          <div class="col-12 col-md-5 text-center">
             <img id="modal-img">
           </div>
 
           <div class="col-12 col-md-7">
+
             <small id="modal-fecha" class="text-secondary d-block mb-1"></small>
             <small id="modal-categorias" class="text-secondary d-block mb-2"></small>
+
             <p id="modal-desc" class="mb-4"></p>
 
-            <a id="modal-video" target="_blank" class="btn btn-primary w-100 mb-2">
-              Ver Video
-            </a>
+            <a id="modal-video" target="_blank" class="btn btn-anime-primary w-100 mb-2">Ver Video</a>
+            <a id="modal-download" target="_blank" class="btn btn-anime-secondary w-100">Descargar Mod</a>
 
-            <a id="modal-download" target="_blank" class="btn btn-outline-primary w-100">
-              Descargar Mod
-            </a>
           </div>
 
         </div>
-
       </div>
+
     </div>
+
   </div>
 </div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox-bg">
+  <img id="lightbox-img">
+</div>
+
+<script>
+// ==========================
+// CONFIG
+// ==========================
+
+const API_KEY = "AIzaSyCrLWKQFw9pW-YRuPtjG10yj0rycxJLvHE";
+const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
+
+// Cache: 1 hora
+const CACHE_TIME = 60 * 60 * 1000;
+
+// ==========================
+// URL SANITIZER (Mega, etc.)
+// ==========================
+function limpiarURL(url) {
+    if (!url) return "";
+
+    return url
+        .replace(/\s*\.\s*/g, ".")
+        .replace(/\s+/g, "")
+        .replace(/\[dot\]/gi, ".")
+        .replace(/\(dot\)/gi, ".")
+        .replace(/dot/gi, ".")
+        .replace(/^http(s?):\/\//, "https://");
+}
+
+// ==========================
+// FETCH YOUTUBE
+// ==========================
+async function fetchYouTube() {
+
+    const cache = localStorage.getItem("yt_cache");
+    const cacheTime = localStorage.getItem("yt_cache_time");
+
+    if (cache && cacheTime && (Date.now() - cacheTime) < CACHE_TIME) {
+        return JSON.parse(cache);
+    }
+
+    const url =
+      `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}` +
+      `&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
+
+    const resp = await fetch(url);
+    const data = await resp.json();
+
+    localStorage.setItem("yt_cache", JSON.stringify(data));
+    localStorage.setItem("yt_cache_time", Date.now());
+
+    return data;
+}
+
+// ==========================
+// RENDER VIDEOS
+// ==========================
+function renderVideos(items) {
+    const cont = document.getElementById("youtube-feed");
+    cont.innerHTML = "";
+
+    const videos = items.filter(i => i.id.videoId);
+
+    videos.slice(0, 3).forEach(item => {
+        cont.innerHTML += `
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100">
+            <img src="${item.snippet.thumbnails.high.url}" class="card-img-top">
+
+            <div class="card-body">
+              <h5 class="card-title">${item.snippet.title}</h5>
+
+              <small class="text-secondary d-block mb-2">
+                ${item.snippet.publishedAt.substring(0,10)}
+              </small>
+
+              <p class="card-text text-secondary">
+                ${item.snippet.description.substring(0,120)}...
+              </p>
+
+              <a class="btn btn-primary w-100"
+                 target="_blank"
+                 href="https://www.youtube.com/watch?v=${item.id.videoId}">
+                 Ver video
+              </a>
+            </div>
+          </div>
+        </div>`;
+    });
+}
+
+// ==========================
+// RENDER POPULAR
+// ==========================
+function renderPopular(items) {
+    const vid = items[0];
+    if (!vid) return;
+
+    document.getElementById("popular-video").src =
+      `https://www.youtube.com/embed/${vid.id.videoId}`;
+
+    document.getElementById("popular-title").innerText = vid.snippet.title;
+    document.getElementById("popular-date").innerText =
+      vid.snippet.publishedAt.substring(0,10);
+    document.getElementById("popular-desc").innerText =
+      vid.snippet.description.substring(0,200);
+}
+
+// ==========================
+// MODS AUTOMÁTICOS
+// ==========================
+let mods = [];
+let categoriasSet = new Set();
+
+function parseModFromVideo(item) {
+    const title = item.snippet.title;
+    if (!title.startsWith("[Mod]")) return null;
+
+    const videoID = item.id.videoId;
+    const desc = item.snippet.description;
+
+    let categorias = [];
+    let linkMod = "";
+    let textoDesc = desc;
+
+    const lines = desc.split("\n");
+
+    lines.forEach(l => {
+        const ln = l.trim();
+
+        if (ln.startsWith("Categorias:")) {
+            categorias = ln.replace("Categorias:", "")
+                           .split(",")
+                           .map(x => x.trim())
+                           .filter(x => x.length > 0);
+        }
+
+        if (ln.startsWith("Mod:")) {
+            linkMod = ln.replace("Mod:", "").trim();
+            linkMod = limpiarURL(linkMod);
+        }
+    });
+
+    categorias.forEach(c => categoriasSet.add(c));
+
+    return {
+        name: title.replace("[Mod]", "").trim(),
+        fecha: item.snippet.publishedAt.substring(0,10),
+        categorias,
+        desc: textoDesc,
+        video: `https://www.youtube.com/watch?v=${videoID}`,
+        mod: linkMod,
+        thumbnail: item.snippet.thumbnails.high.url,
+        imagen_mod: `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`,
+        videoID
+    };
+}
+
+function renderMods() {
+    const cont = document.getElementById("mods-section");
+    cont.innerHTML = "";
+
+    if (mods.length === 0) {
+        cont.innerHTML = "<p>No hay mods aún.</p>";
+        return;
+    }
+
+    mods.forEach(m => {
+        cont.innerHTML += `
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100" onclick="abrirModal('${m.videoID}')">
+            <img src="${m.thumbnail}" class="card-img-top" />
+            <div class="card-body">
+              <h5 class="card-title">${m.name}</h5>
+              <small class="text-secondary">${m.fecha}</small>
+              <p class="text-secondary mt-2">${m.desc.substring(0,120)}...</p>
+            </div>
+          </div>
+        </div>`;
+    });
+}
+
+function generarDropdown() {
+    const dd = document.getElementById("mods-dropdown");
+    dd.innerHTML = "";
+
+    categoriasSet.forEach(cat => {
+        dd.innerHTML += `
+        <label class="dropdown-item">
+            <input type="checkbox" value="${cat}" onchange="filtrarMods()" />
+            ${cat}
+        </label>`;
+    });
+}
+
+function filtrarMods() {
+    const checks = [...document.querySelectorAll("#mods-dropdown input")];
+    const active = checks.filter(c => c.checked).map(c => c.value);
+
+    if (active.length === 0) return renderMods();
+
+    const filtrados = mods.filter(m =>
+        active.every(c => m.categorias.includes(c))
+    );
+
+    const cont = document.getElementById("mods-section");
+    cont.innerHTML = "";
+
+    filtrados.forEach(m => {
+        cont.innerHTML += `
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100" onclick="abrirModal('${m.videoID}')">
+            <img src="${m.thumbnail}" class="card-img-top" />
+            <div class="card-body">
+              <h5 class="card-title">${m.name}</h5>
+              <small class="text-secondary">${m.fecha}</small>
+              <p class="text-secondary mt-2">${m.desc.substring(0,120)}...</p>
+            </div>
+          </div>
+        </div>`;
+    });
+}
+
+// ==========================
+// MODAL
+// ==========================
+function abrirModal(videoID) {
+    const m = mods.find(x => x.videoID === videoID);
+
+    document.getElementById("modal-img").src = m.imagen_mod;
+    document.getElementById("modal-title").innerText = m.name;
+    document.getElementById("modal-fecha").innerText = "Publicado: " + m.fecha;
+    document.getElementById("modal-categorias").innerText =
+      "Categorías: " + m.categorias.join(", ");
+    document.getElementById("modal-desc").innerText = m.desc;
+    document.getElementById("modal-video").href = m.video;
+    document.getElementById("modal-download").href = m.mod;
+
+    document.getElementById("modal-blur").style.backgroundImage =
+      `url('${m.thumbnail}')`;
+
+    // lightbox
+    document.getElementById("modal-img").onclick = () => {
+        document.getElementById("lightbox-img").src = m.imagen_mod;
+        document.getElementById("lightbox-bg").style.display = "flex";
+    };
+
+    new bootstrap.Modal(document.getElementById("modModal")).show();
+}
+
+document.getElementById("lightbox-bg").onclick = () => {
+    document.getElementById("lightbox-bg").style.display = "none";
+};
+
+// ==========================
+// START
+// ==========================
+(async () => {
+    const data = await fetchYouTube();
+    const items = data.items || [];
+
+    // Últimos videos
+    renderVideos(items);
+
+    // Popular (primer video)
+    renderPopular(items);
+
+    // Mods automáticos
+    mods = items.map(parseModFromVideo).filter(x => x !== null);
+
+    generarDropdown();
+    renderMods();
+})();
+</script>
 
 </body>
 </html>
