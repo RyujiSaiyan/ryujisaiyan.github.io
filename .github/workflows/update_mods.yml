@@ -1,42 +1,35 @@
-<script>
-async function exportarJSON() {
-    if (modsAuto.length === 0) {
-        alert("No hay mods para exportar.");
-        return;
-    }
+name: Generar mods.json automáticamente
 
-    const modsStr = JSON.stringify(modsAuto, null, 2);
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # cada 6 horas
+  workflow_dispatch:        # permite ejecutarlo manualmente
 
-    const url = "https://api.github.com/repos/RyujiSaiyan/ryujisaiyan.github.io/contents/trigger_mods.json";
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
 
-    const commitMessage = "Actualización automática de mods";
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-    const fileContent = btoa(unescape(encodeURIComponent(modsStr)));
+    - name: Instalar Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: "18"
 
-    // 1) Obtener SHA si el archivo existe (obligatorio para actualizar)
-    let sha = null;
-    try {
-        const r = await fetch(url);
-        if (r.ok) {
-            const d = await r.json();
-            sha = d.sha;
-        }
-    } catch (e) {}
+    - name: Instalar dependencias
+      run: npm install node-fetch@2
 
-    // 2) Hacer commit usando el token interno de GitHub (no expuesto)
-    const result = await fetch(url + "?ref=modsync", {
-        method: "PUT",
-        headers: {
-            "Accept": "application/vnd.github+json"
-        },
-        body: JSON.stringify({
-            message: commitMessage,
-            content: fileContent,
-            branch: "modsync",
-            sha: sha || undefined
-        })
-    });
+    - name: Ejecutar script generador
+      env:
+        YT_API_KEY: ${{ secrets.YT_API_KEY }}
+      run: node scripts/generate_mods.js
 
-    alert("✔ Mods enviados, GitHub Actions actualizará mods.json");
-}
-</script>
+    - name: Commit & Push mods.json
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "action@github.com"
+        git add mods.json
+        git commit -m "Actualización automática de mods.json" || echo "Nada que actualizar"
+        git push
