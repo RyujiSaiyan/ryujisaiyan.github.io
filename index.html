@@ -1,492 +1,202 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website</title>
 
-<title>Mi Blog Anime Dark</title>
-
-<!-- BOOTSTRAP -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<style>
-/* -------------------- */
-/* PALETA ANIME LAVANDA */
-/* -------------------- */
-:root {
-    --lavanda: #A39ACB;
-    --lavanda-light: #c7bafd;
-    --bg-dark: #0A1228;
-    --card-bg: #1B1E24;
-    --border-dark: #2F333D;
-}
-
-body {
-    background: var(--bg-dark);
-    color: #E8ECF9;
-    font-family: "Roboto", sans-serif;
-}
-
-.section-title {
-    border-left: 5px solid var(--lavanda);
-    padding-left: 12px;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    font-size: 1.6rem;
-}
-
-/* ========================================================= */
-/* ==================== NETFLIX CAROUSEL ==================== */
-/* ========================================================= */
-
-.carousel-row {
-    position: relative;
-    overflow: hidden;
-}
-
-.carousel-container {
-    display: flex;
-    gap: 18px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 12px 0;
-}
-
-.carousel-container::-webkit-scrollbar {
-    height: 10px;
-}
-
-.carousel-container::-webkit-scrollbar-thumb {
-    background: var(--lavanda);
-    border-radius: 5px;
-}
-
-.carousel-container::-webkit-scrollbar-track {
-    background: #111727;
-}
-
-/* TARJETAS TIPO NETFLIX — Hover C1 */
-.n-card {
-    min-width: 240px;
-    max-width: 240px;
-    background: var(--card-bg);
-    border-radius: 14px;
-    border: 1px solid var(--border-dark);
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.3s;
-    cursor: pointer;
-}
-
-.n-card:hover {
-    transform: scale(1.15);
-    border-color: var(--lavanda);
-    box-shadow: 0 0 25px rgba(163,154,203,0.6);
-    z-index: 3;
-}
-
-.n-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
-.n-card .body {
-    padding: 12px;
-}
-
-/* FLECHAS ESTILO NETFLIX (N2) */
-.carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 55px;
-    height: 120px;
-    background: rgba(10, 18, 40, 0.55);
-    backdrop-filter: blur(5px);
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--lavanda);
-    font-size: 2rem;
-    cursor: pointer;
-    z-index: 10;
-    transition: 0.2s;
-    opacity: 0;
-}
-
-.carousel-row:hover .carousel-arrow {
-    opacity: 1;
-}
-
-.carousel-arrow:hover {
-    background: rgba(163,154,203,0.3);
-    color: var(--lavanda-light);
-}
-
-/* Left & Right */
-.carousel-arrow.left {
-    left: 0;
-}
-
-.carousel-arrow.right {
-    right: 0;
-}
-
-/* ======================== MODAL ======================== */
-
-.modal-bg-blur {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background-size: cover !important;
-    background-position: center !important;
-    filter: blur(18px);
-    opacity: 0.35;
-    border-radius: 18px;
-    pointer-events: none !important;
-}
-
-.modal-content {
-    position: relative;
-    z-index: 2;
-    background: rgba(16, 22, 38, 0.85) !important;
-    backdrop-filter: blur(6px);
-    border-radius: 18px !important;
-    border: 1px solid var(--lavanda) !important;
-}
-
-#modal-img {
-    width: 100%;
-    max-width: 360px;
-    border-radius: 16px;
-    border: 2px solid rgba(163,154,203,0.5);
-    box-shadow: 0px 0px 25px rgba(0,0,0,0.6);
-    cursor: zoom-in;
-}
-
-/* LIGHTBOX */
-#lightbox-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(5px);
-    z-index: 99999;
-    justify-content: center;
-    align-items: center;
-}
-#lightbox-img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 18px;
-    border: 2px solid var(--lavanda);
-    box-shadow: 0 0 25px rgba(163,154,203,0.8);
-}
-#lightbox-bg:hover { cursor: zoom-out; }
-
-</style>
+    <link rel="stylesheet" href="style.css">
+        <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+    <script src="script.js" defer></script>
 </head>
 
 <body>
+    <canvas id="bg-particles"></canvas>
+<header>
+    <a href="#" class="logo neon-text" id="channel-name">Cargando...</a>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-  <a class="navbar-brand fw-bold" href="#">MiBlog</a>
+    <button class="nav-toggle" aria-label="Abrir menú">
+        <i class="fa-solid fa-bars"></i>
+    </button>
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Skills</a>
+        <a href="#">Education</a>
+        <a href="#">Experience</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
 
-  <div class="collapse navbar-collapse" id="navMenu">
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-      <li class="nav-item"><a class="nav-link" href="#videos">Videos</a></li>
-      <li class="nav-item"><a class="nav-link" href="#mods">Mods</a></li>
-    </ul>
-  </div>
-</nav>
 
-<!-- CONTENIDO -->
-<div class="container-fluid py-4">
-
-    <!-- SECCIÓN: MÁS POPULAR -->
-    <h2 class="section-title">Más popular</h2>
-    <div class="main-video mb-4">
-        <iframe id="popular-video" src="" allowfullscreen style="width:100%;height:420px;border-radius:12px;"></iframe>
-        <h3 id="popular-title" class="mt-3">Cargando...</h3>
-        <small id="popular-date" class="text-secondary"></small>
-        <p id="popular-desc" class="text-secondary mt-2">Obteniendo el video más visto...</p>
+<section class="home">
+    <div class="home-img">
+        <img id="channel-image" class="neon-pulse" alt="">
     </div>
 
-    <!-- ÚLTIMOS VIDEOS -->
-    <h2 class="section-title" id="videos">Últimos videos</h2>
+    <div class="home-content">
+        <h1>Hola, soy <span id="yt-name" class="neon-text">Cargando...</span></h1>
 
-    <div class="carousel-row">
-        <div class="carousel-arrow left" onclick="scrollCarousel('videos-carousel', -1)">❮</div>
-        <div class="carousel-arrow right" onclick="scrollCarousel('videos-carousel', 1)">❯</div>
 
-        <div id="videos-carousel" class="carousel-container">
-            <p>Cargando videos...</p>
+        <h3 class="typing-text">Soy <span></span></h3>
+        <p id="channel-desc">Cargando descripción...</p>
+
+        <div class="social-icons">
+            <a href="https://youtube.com/@UniversoTenkaichi"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://discord.com/users/1230926953796862053"><i class="fa-brands fa-discord"></i></a>
+        </div>
+        <a href="#characters" class="btn-neon">Ver personajes</a>
+
+    </div>
+</section>
+
+<section class="youtube">
+    <h2 class="yt-title neon-text">Último Video del Canal</h2>
+
+    <div class="yt-card">
+        <div class="yt-video">
+            <iframe id="yt-last-video" src="" allowfullscreen></iframe>
+        </div>
+
+        <div class="yt-info">
+            <h3 id="yt-video-title">Cargando...</h3>
+            <small id="yt-video-date"></small>
+            <p id="yt-video-desc">Obteniendo el último video…</p>
+            <a id="yt-video-link" class="btn-neon" target="_blank">Ver en YouTube</a>
         </div>
     </div>
+</section>
 
-    <!-- MODS -->
-    <h2 class="section-title" id="mods">Mods</h2>
+<section id="characters" class="characters">
+    <h2 class="section-title">Personajes</h2>
 
-    <div class="carousel-row">
-        <div class="carousel-arrow left" onclick="scrollCarousel('mods-carousel', -1)">❮</div>
-        <div class="carousel-arrow right" onclick="scrollCarousel('mods-carousel', 1)">❯</div>
+    <div id="mods-list"></div>
+</section>
 
-        <div id="mods-carousel" class="carousel-container">
-            <p>Cargando mods...</p>
-        </div>
+<!-- Modal Personaje -->
+<div id="mod-modal" class="mod-modal">
+  <div class="mod-modal__content fighter-modal">
+    <button class="mod-modal__close" aria-label="Cerrar">
+      &times;
+    </button>
+
+    <!-- Zona hero tipo Sparking -->
+    <div class="fighter-modal__hero">
+      <img id="mod-bg" class="fighter-modal__bg" alt="">
+      <div class="fighter-modal__panel"></div>
+      <img id="mod-render" class="fighter-modal__render" alt="">
     </div>
 
-</div>
+    <!-- Barra inferior de info -->
+    <div class="fighter-modal__footer">
+      <div class="fighter-modal__info">
+        <h2 id="mod-title" class="fighter-modal__title">GOKu</h2>
+        <p id="mod-subtitle" class="fighter-modal__subtitle">GOKU (Z - EARLY) </p>
 
-<!-- FOOTER -->
-<footer class="text-center py-4 mt-5 bg-dark">
-    © 2025 - Mi Blog Anime Dark · Todos los derechos reservados
-</footer>
+        <div class="fighter-modal__tags">
+            <span id="mod-category" class="mod-tag"></span>
+            <span id="mod-saga" class="mod-tag"></span>
+        </div>
 
-<!-- MODAL DE MODS -->
-<div class="modal fade" id="modModal" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
+        <div class="fighter-modal__skins-row">
+            <div id="mod-skins" class="fighter-modal__skins"></div>
+            <button id="mod-damage-toggle" class="damage-toggle">Normal</button>
+        </div>
 
-      <div id="modal-blur" class="modal-bg-blur"></div>
 
-      <div class="modal-header border-0">
-        <h5 id="modal-title" class="modal-title"></h5>
-        <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <p id="mod-description" class="fighter-modal__description"></p>
       </div>
 
-      <div class="modal-body">
-        <div class="row g-4 align-items-start">
-          <div class="col-12 col-md-5 text-center">
-            <img id="modal-img">
-          </div>
-          <div class="col-12 col-md-7">
-            <small id="modal-fecha" class="text-secondary d-block mb-1"></small>
-            <small id="modal-categorias" class="text-secondary d-block mb-2"></small>
-            <p id="modal-desc" class="mb-4"></p>
-            <a id="modal-video" target="_blank" class="btn btn-primary w-100 mb-2">Ver Video</a>
-            <a id="modal-download" target="_blank" class="btn btn-secondary w-100">Descargar Mod</a>
-          </div>
+
+      <div class="fighter-modal__side">
+        <div class="fighter-modal__chart">
+          <img id="mod-chart" alt="Chart del personaje">
+        </div>
+
+        <div class="fighter-modal__actions">
+          <a id="mod-video" class="btn-neon" target="_blank" rel="noopener noreferrer">
+            Ver video
+          </a>
+          <a id="mod-download" class="btn-neon" target="_blank" rel="noopener noreferrer">
+            Descargar
+          </a>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox-bg">
-  <img id="lightbox-img">
-</div>
+
 
 <script>
-/* ========================================================= */
-/* ==================== CONFIG & HELPERS =================== */
-/* ========================================================= */
+const canvas = document.getElementById('bg-particles');
+const ctx = canvas.getContext('2d');
 
-const API_KEY = "AIzaSyCrLWKQFw9pW-YRuPtjG10yj0rycxJLvHE";
-const CHANNEL_ID = "UCG_Oh0Ty-spxPukCEvfXWjQ";
-const CACHE_TIME = 60 * 60 * 1000;
+let particles = [];
+const NUM_PARTICLES = 120;   // puedes subir/bajar la cantidad
+const MAX_SPEED = 0.4;       // velocidad máxima (más alto = más rápido)
 
-function scrollCarousel(id, dir) {
-    const el = document.getElementById(id);
-    el.scrollBy({ left: dir * 400, behavior: "smooth" });
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
-function limpiarURL(url) {
-    if (!url) return "";
-    return url
-        .replace(/\s*\.\s*/g, ".")
-        .replace(/\s+/g, "")
-        .replace(/\[dot\]/gi, ".")
-        .replace(/\(dot\)/gi, ".")
-        .replace(/^http(s?):\/\//, "https://");
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createParticles() {
+    particles = [];
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2.2 + 0.3,   // tamaño de cada partícula
+            vx: (Math.random() - 0.5) * MAX_SPEED,
+            vy: (Math.random() - 0.5) * MAX_SPEED,
+            alpha: Math.random() * 0.6 + 0.2     // transparencia
+        });
+    }
 }
 
-async function fetchYouTube() {
-    const cache = localStorage.getItem("yt_cache");
-    const cacheTime = localStorage.getItem("yt_cache_time");
+function updateParticles() {
+    for (let p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
 
-    if (cache && cacheTime && (Date.now() - cacheTime) < CACHE_TIME)
-        return JSON.parse(cache);
-
-    const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=50`;
-
-    const resp = await fetch(url);
-    const data = await resp.json();
-
-    localStorage.setItem("yt_cache", JSON.stringify(data));
-    localStorage.setItem("yt_cache_time", Date.now());
-
-    return data;
+        // Reaparece por el lado contrario (efecto "wrap")
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+    }
 }
 
-/* ========================================================= */
-/* ==================== RENDER VIDEOS ====================== */
-/* ========================================================= */
+function drawParticles() {
+    // fondo negro semi-transparente para dejar estelas suaves
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-function renderVideos(items) {
-    const cont = document.getElementById("videos-carousel");
-    cont.innerHTML = "";
-
-    const videos = items.filter(i => i.id.videoId);
-
-    videos.slice(0, 12).forEach(item => {
-        cont.innerHTML += `
-        <div class="n-card">
-            <img src="${item.snippet.thumbnails.medium.url}">
-            <div class="body">
-                <h6>${item.snippet.title.substring(0,40)}...</h6>
-                <small class="text-secondary">${item.snippet.publishedAt.substring(0,10)}</small>
-            </div>
-        </div>`;
-    });
+    for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        // blanco con un ligero tinte azulado, puedes cambiarlo
+        ctx.fillStyle = `rgba(200, 200, 255, ${p.alpha})`;
+        ctx.fill();
+    }
 }
 
-/* ========================================================= */
-/* ===================== RENDER POPULAR ==================== */
-/* ========================================================= */
-function renderPopular(items) {
-    const vid = items[0];
-    if (!vid) return;
-
-    document.getElementById("popular-video").src =
-      `https://www.youtube.com/embed/${vid.id.videoId}`;
-    document.getElementById("popular-title").innerText = vid.snippet.title;
-    document.getElementById("popular-date").innerText = vid.snippet.publishedAt.substring(0,10);
-    document.getElementById("popular-desc").innerText = vid.snippet.description.substring(0,200);
+function loop() {
+    updateParticles();
+    drawParticles();
+    requestAnimationFrame(loop);
 }
 
-/* ========================================================= */
-/* ===================== PARSE MODS ======================== */
-/* ========================================================= */
-
-let mods = [];
-
-function parseModFromVideo(item) {
-    const title = item.snippet.title;
-    if (!title.startsWith("[Mod]")) return null;
-
-    const videoID = item.id.videoId;
-    const desc = item.snippet.description;
-
-    let categorias = [];
-    let linkMod = "";
-    let textoDesc = desc;
-
-    const lines = desc.split("\n");
-
-    lines.forEach(l => {
-        const ln = l.trim();
-
-        if (ln.startsWith("Categorias:")) {
-            let raw = ln.replace("Categorias:", "").trim();
-
-            raw = raw.split(".")[0];
-            raw = raw.split("http")[0];
-            raw = raw.split("Resubire")[0];
-            raw = raw.split("|")[0];
-            raw = raw.split("- ")[0];
-
-            categorias = raw.split(",")
-                             .map(x => x.trim())
-                             .filter(x => x.length > 0);
-        }
-
-        if (ln.startsWith("Mod:")) {
-            linkMod = limpiarURL(ln.replace("Mod:", "").trim());
-        }
-    });
-
-    return {
-        name: title.replace("[Mod]", "").trim(),
-        fecha: item.snippet.publishedAt.substring(0,10),
-        categorias,
-        desc: textoDesc,
-        video: `https://www.youtube.com/watch?v=${videoID}`,
-        mod: linkMod,
-        thumbnail: item.snippet.thumbnails.high.url,
-        imagen_mod: `https://i.ytimg.com/vi/${videoID}/maxresdefault.jpg`,
-        videoID
-    };
-}
-
-/* ========================================================= */
-/* ===================== RENDER MODS ======================= */
-/* ========================================================= */
-
-function renderMods() {
-    const cont = document.getElementById("mods-carousel");
-    cont.innerHTML = "";
-
-    mods.forEach(m => {
-        cont.innerHTML += `
-        <div class="n-card" onclick="abrirModal('${m.videoID}')">
-            <img src="${m.thumbnail}">
-            <div class="body">
-                <h6>${m.name.substring(0,40)}...</h6>
-                <small class="text-secondary">${m.fecha}</small>
-            </div>
-        </div>`;
-    });
-}
-
-/* ========================================================= */
-/* ======================== MODAL ========================== */
-/* ========================================================= */
-
-function abrirModal(videoID) {
-    const m = mods.find(x => x.videoID === videoID);
-
-    document.getElementById("modal-img").src = m.imagen_mod;
-    document.getElementById("modal-title").innerText = m.name;
-    document.getElementById("modal-fecha").innerText = "Publicado: " + m.fecha;
-    document.getElementById("modal-categorias").innerText = "Categorías: " + m.categorias.join(", ");
-    document.getElementById("modal-desc").innerText = m.desc;
-    document.getElementById("modal-video").href = m.video;
-    document.getElementById("modal-download").href = m.mod;
-
-    document.getElementById("modal-blur").style.backgroundImage = `url('${m.thumbnail}')`;
-
-    document.getElementById("modal-img").onclick = () => {
-        document.getElementById("lightbox-img").src = m.imagen_mod;
-        document.getElementById("lightbox-bg").style.display = "flex";
-    };
-
-    new bootstrap.Modal(document.getElementById("modModal")).show();
-}
-
-document.getElementById("lightbox-bg").onclick = () => {
-    document.getElementById("lightbox-bg").style.display = "none";
-};
-
-/* ========================================================= */
-/* ========================= START ========================= */
-/* ========================================================= */
-
-(async () => {
-    const data = await fetchYouTube();
-    const items = data.items || [];
-
-    renderVideos(items);
-    renderPopular(items);
-
-    mods = items.map(parseModFromVideo).filter(x => x !== null);
-    renderMods();
-
-    /* EXPORT MODS TO CONSOLE */
-    console.log("📦 MODS DETECTADOS (copia y pega en mods.json):");
-    console.log(JSON.stringify(mods, null, 2));
-})();
-
+createParticles();
+loop();
 </script>
 
 </body>

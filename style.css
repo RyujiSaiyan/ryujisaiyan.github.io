@@ -1,96 +1,975 @@
-/* ----- Estilo general ----- */
-body {
-    background-color: #0d0f14;
-    font-family: 'Segoe UI', sans-serif;
-    overflow-x: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+
+/* ========================================================= */
+/* Variables                                                 */
+/* ========================================================= */
+
+:root{
+    --accent: #9b5de5; /* púrpura */
 }
 
-/* ----- Personaje al lado derecho estilo Arknights ----- */
-#character-bg {
+/* ========================================================= */
+/* Global                                                   */
+/* ========================================================= */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: black;  /* fondo base negro */
+    color: white;
+}
+
+/* Todas las secciones/contendedores son transparentes para ver el canvas */
+section,
+main,
+.container,
+.wrapper {
+    background: transparent;
+}
+
+/* Canvas de partículas */
+#bg-particles {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ========================================================= */
+/* Header / Nav                                              */
+/* ========================================================= */
+
+header{
+    margin-top: 20px;
     position: fixed;
     top: 0;
-    right: 0;
-    width: 55%;
-    height: 100%;
-    background: url("assets/personaje.png") no-repeat right bottom;
-    background-size: 75%;
-    opacity: 0.12;
-    pointer-events: none;
-    filter: drop-shadow(0 0 15px #2a2a3a);
+    left: 0;
+    width: 100%;
+    padding: 1rem 9%;
+    background-color: transparent;
+    filter: drop-shadow(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 }
 
-/* Títulos tipo panel tech */
-.section-title {
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2.4rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media (max-width: 995px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    header {
+        padding-right: 3rem;
+    }
+
+    header nav {
+        top: 60px;
+    }
+}
+
+.logo{
+    font-size: 3rem;
+    color: var(--accent);
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.logo:hover{
+    transform: scale(1.1);
+}
+
+nav a{
     font-size: 1.8rem;
+    color: white;
+    margin-left: 4rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+    border-bottom: 3px solid transparent;
+}
+
+nav a:hover,
+nav a.active{
+    color: var(--accent);
+    border-bottom: 3px solid var(--accent);
+}
+
+@media(max-width:995px){
+    nav{
+        position: absolute;
+        display: none;
+        top: 0;
+        right: 0;
+        width: 40%;
+        border-left: 3px solid var(--accent);
+        border-bottom: 3px solid var(--accent);
+        border-bottom-left-radius: 2rem;
+        padding: 1rem;
+        background-color: #161616;
+        border-top: 0.1rem solid rgba(0,0,0,0.1);
+    }
+
+    nav.active{
+        display: block;
+    }
+
+    nav a{
+        display: block;
+        font-size: 2rem;
+        margin: 3rem 0;
+    }
+
+    nav a:hover,
+    nav a.active{
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border-bottom: 0.5rem solid var(--accent);
+    }
+}
+
+/* ========================================================= */
+/* Secciones base                                            */
+/* ========================================================= */
+
+section{
+    min-height: 100vh;
+    padding: 5rem 9% 5rem;
+}
+
+/* ========================================================= */
+/* Home / Hero                                               */
+/* ========================================================= */
+
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8rem;
+    /* sin background sólido para dejar ver partículas */
+    background: transparent;
+}
+
+.home .home-content h1{
+    font-size: 6rem;
     font-weight: 700;
-    border-left: 6px solid #646cff;
-    padding-left: 12px;
-    margin-bottom: 20px;
+    line-height: 1.3;
 }
 
-/* ----- Cards de mods ----- */
-.card {
-    background: #161a23 !important;
-    border: 1px solid #2a2d35 !important;
-    box-shadow: 0 0 10px rgba(0,0,0,0.45);
-    transition: transform .25s;
+span{
+    color: var(--accent);
 }
 
-.card:hover {
-    transform: scale(1.05);
+.home-content h3{
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
 }
 
-.thumbnail {
-    height: 170px;
+.home-content p{
+    font-size: 1.6rem;
+}
+
+.home-img{
+    border-radius: 50%;
+}
+
+.home-img img{
+    position: relative;
+    width: 32vw;
+    border-radius: 50%;
+    box-shadow: 0 0 25px var(--accent);
+    cursor: pointer;
+    transition: 0.2s linear;
+}
+
+.home-img img:hover{
+    transform: scale(1.03);
+    box-shadow: 0 0 35px var(--accent);
+}
+
+.social-icons a{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background-color: transparent;
+    border: 0.2rem solid var(--accent);
+    font-size: 2rem;
+    border-radius: 50%;
+    margin: 3rem 1.5rem 3rem 0;
+    transition: 0.3s ease;
+    color: var(--accent);
+}
+
+.social-icons a:hover{
+    color: black;
+    transform: scale(1.3) translateY(-5px);
+    background-color: var(--accent);
+    box-shadow: 0  0 25px var(--accent);
+}
+
+.btn{
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background-color: black;
+    border-radius: 4rem;
+    font-size: 1.6rem;
+    color: var(--accent);
+    letter-spacing: 0.3rem;
+    font-weight: 600;
+    border: 2px solid var(--accent);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover{
+    transform: scale(1.03);
+    background-color: var(--accent);
+    color: black;
+    box-shadow: 0 0 25px var(--accent);
+}
+
+.typing-text{
+    font-size: 34px;
+    font-weight: 600;
+    min-width: 280px;
+}
+
+.typing-text span{
+    position: relative;
+}
+
+/* Texto que cambia */
+.typing-text span::before{
+    content: "Desarrollador Web";
+    color: var(--accent);
+    animation: words 20s infinite;
+}
+
+/* Cursor (solo la línea, sin cubrir el texto) */
+.typing-text span::after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    border-left: 3px solid var(--accent);
+    right: -4px;
+    animation: cursor 0.6s infinite;
+}
+
+@keyframes cursor{
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes words{
+    0%, 20%   { content: "Desarrollador Web"; }
+    21%, 40%  { content: "Programador"; }
+    41%, 60%  { content: "Diseñador Web"; }
+    61%, 80%  { content: "Youtuber"; }
+    81%, 100% { content: "Guionista de scripts"; }
+}
+
+@media (max-width: 1000px){
+    .home{ gap: 4rem; }
+}
+
+@media(max-width:995px){
+    .home{
+        flex-direction: column;
+        margin: 5rem 4rem;
+    }
+    .home .home-content h3{ font-size: 2.5rem; }
+    .home-content h1{ font-size: 5rem; }
+    .home-img img{ width: 70vw; margin-top: 4rem; }
+}
+
+/* ========================================================= */
+/* Último video YouTube                                      */
+/* ========================================================= */
+
+.youtube {
+    padding: 6rem 9%;
+    /* fondo semitransparente para ver partículas detrás */
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.yt-title {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.yt-card {
+    display: flex;
+    gap: 4rem;
+    background: #0a0a0a;
+    padding: 3rem;
+    border-radius: 2rem;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 25px var(--accent);
+}
+
+.yt-video iframe {
+    width: 520px;
+    height: 300px;
+    border-radius: 1.5rem;
+    border: none;
+    box-shadow: 0 0 25px var(--accent);
+}
+
+.yt-info h3 {
+    font-size: 2.4rem;
+    font-weight: 600;
+}
+
+.yt-info small {
+    color: #bbb;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.yt-info p {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    color: #ddd;
+}
+
+.yt-info .btn {
+    margin-top: 2rem;
+}
+
+@media (max-width: 1100px) {
+    .yt-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .yt-video iframe {
+        width: 100% !important;
+        height: 260px;
+    }
+
+    .yt-info h3 {
+        font-size: 2rem;
+    }
+
+    .yt-info p {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .yt-title {
+        font-size: 2.6rem;
+    }
+
+    .yt-video iframe {
+        height: 220px;
+    }
+}
+
+/* ========================================================= */
+/* Mods / Characters                                         */
+/* ========================================================= */
+
+.characters {
+    padding: 4rem 9% 4rem;
+    background: transparent;   /* importante: sin negro sólido */
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.characters #mods-list {
+    width: 100%;
+}
+
+.section-title {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* Card personaje - base */
+.char-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 140px;
+    padding: 0 3rem 0 2.4rem;
+    max-width: 520px;
+
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 0.8rem;
+    border: 2px solid var(--accent);
+
+    box-shadow:
+        0 0 6px var(--accent),
+        0 0 14px var(--accent),
+        0 0 24px rgba(155, 93, 229, 0.7);
+
+    overflow: visible;
+    transition:
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+/* “Glow” interno como en los botones */
+.char-card::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle, rgba(155, 93, 229, 0.5), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: -1;
+}
+
+/* Hover neón similar a .btn / .btn-neon */
+.char-card:hover {
+    transform: translateY(-2px) scale(1.02);
+    background: rgba(0, 0, 0, 0.92);
+
+    box-shadow:
+        0 0 10px var(--accent),
+        0 0 26px var(--accent),
+        0 0 40px rgba(155, 93, 229, 1);
+}
+
+.char-card:hover::before {
+    opacity: 1;
+}
+
+/* Hexágono con mismo glow al hacer hover */
+.char-card:hover .hex-wrapper {
+    background: var(--accent);
+    box-shadow:
+        0 0 10px var(--accent),
+        0 0 24px rgba(155, 93, 229, 0.9);
+}
+
+
+/* Hexágono que se sale hacia la derecha */
+.char-portrait {
+    position: absolute;
+    top: 50%;
+    right: -55px;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+#mods-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 9rem;
+    row-gap: 2.4rem;
+    margin-top: 2rem;
+}
+
+/* 2 por fila en pantallas medias */
+@media (min-width: 900px) {
+    #mods-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 4 por fila en pantallas grandes */
+@media (min-width: 1400px) {
+    #mods-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Texto */
+.char-info {
+    position: relative;
+    z-index: 1;
+}
+
+.char-info h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #ffffff;
+}
+
+.char-subtitle {
+    margin-top: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffd54a;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* Borde negro del hexágono */
+.hex-wrapper {
+    padding: 4px;
+    background: #000000;
+    clip-path: polygon(
+        50% 0%,
+        100% 25%,
+        100% 75%,
+        50% 100%,
+        0% 75%,
+        0% 25%
+    );
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Interior */
+.hex-inner {
+    width: 110px;
+    height: 125px;
+    overflow: hidden;
+    clip-path: polygon(
+        50% 0%,
+        100% 25%,
+        100% 75%,
+        50% 100%,
+        0% 75%,
+        0% 25%
+    );
+    background: #ffffff;
+}
+
+/* Imagen */
+.hex-inner img {
+    width: 140%;
+    height: 100%;
     object-fit: cover;
-    border-bottom: 2px solid #303645;
+    transform: translateX(-10%);
 }
 
-.card-title {
-    font-weight: bold;
-    color: #cacfe7;
+/* Responsive */
+@media (max-width: 600px) {
+    .char-card {
+        max-width: 100%;
+    }
+
+    .char-portrait {
+        position: static;
+        transform: none;
+        margin-left: 2rem;
+    }
+
+    .char-card::after {
+        right: 40px;
+    }
 }
 
-.card-desc {
-    color: #9ba4c9;
+/*Botones*/
+.btn,
+.btn-neon {
+    position: relative;
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    border-radius: 999px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+
+    box-shadow:
+        0 0 6px var(--accent),
+        0 0 14px var(--accent),
+        0 0 24px rgba(155, 93, 229, 0.7);
+
+    text-shadow:
+        0 0 4px rgba(155, 93, 229, 0.8),
+        0 0 10px rgba(155, 93, 229, 0.9);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+    overflow: hidden;
 }
 
-/* Botones */
-.btn-video {
-    background-color: #3c3b7c;
-    border: none;
-}
-
-.btn-video:hover {
-    background-color: #5756a6;
-}
-
-.btn-download {
-    background-color: #a53737;
-    border: none;
-}
-
-.btn-download:hover {
-    background-color: #d64545;
-}
-
-/* --- Animación popup fade-in --- */
-#mod-modal {
+.btn::before,
+.btn-neon::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle, rgba(155, 93, 229, 0.6), transparent 70%);
     opacity: 0;
-    transition: opacity 0.25s ease-in-out;
+    transition: opacity 0.25s ease;
+    z-index: -1;
 }
 
-#mod-modal.mostrar {
+.btn:hover,
+.btn-neon:hover {
+    transform: translateY(-2px) scale(1.03);
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+
+    box-shadow:
+        0 0 10px var(--accent),
+        0 0 24px var(--accent),
+        0 0 40px rgba(155, 93, 229, 0.9);
+}
+
+.btn:hover::before,
+.btn-neon:hover::before {
     opacity: 1;
 }
 
-#mod-modal-content {
-    transform: scale(0.9);
-    opacity: 0;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+.btn-neon {
+    animation: neon-pulse 2s infinite alternate;
 }
 
-#mod-modal-content.mostrar {
-    transform: scale(1);
-    opacity: 1;
+@keyframes neon-pulse {
+    0% {
+        box-shadow:
+            0 0 6px var(--accent),
+            0 0 14px var(--accent),
+            0 0 24px rgba(155, 93, 229, 0.7);
+    }
+    100% {
+        box-shadow:
+            0 0 10px var(--accent),
+            0 0 26px var(--accent),
+            0 0 40px rgba(155, 93, 229, 1);
+    }
+}
+/* ======================= */
+/* Modal de Personaje      */
+/* ======================= */
+
+.mod-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 0, 30, 0.88);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.mod-modal.is-active {
+    display: flex;
+}
+
+.mod-modal__content.fighter-modal {
+    position: relative;
+    width: min(1200px, 96vw);
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+
+    padding: 0;
+    border-radius: 1.6rem;
+    background: #24004b;
+    border: 3px solid #f04fff;
+
+    box-shadow:
+        0 0 18px #f04fff,
+        0 0 40px rgba(240, 79, 255, 0.8);
+    overflow: hidden;
+}
+
+/* Botón cierre */
+.mod-modal__close {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.8rem;
+    background: transparent;
+    border: none;
+    font-size: 3rem;
+    color: #00e4ff;
+    cursor: pointer;
+    line-height: 1;
+    text-shadow:
+        0 0 6px #00e4ff,
+        0 0 18px #00e4ff;
+    z-index: 3;
+}
+
+/* Zona hero (arriba) */
+
+/* Zona hero (arriba) */
+
+.fighter-modal__hero {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 320px;
+    aspect-ratio: 16 / 7;
+    background: radial-gradient(circle at 10% 50%, #7b1fff 0, #4b00a8 40%, #190034 80%);
+    overflow: hidden;
+}
+
+/* Arte grande de la derecha (usa mod.background) */
+.fighter-modal__bg {
+    position: absolute;
+    right: -6%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 135%;
+    width: auto;
+    object-fit: cover;
+    opacity: 0.98;
+    filter: saturate(1.1) contrast(1.05);
+    z-index: 0;
+}
+
+/* Panel central con recorte tipo Sparking */
+.fighter-modal__panel {
+    position: absolute;
+    inset: 8% 6%;
+    background: linear-gradient(90deg, rgba(123, 31, 255, 0.9), rgba(255, 62, 247, 0.95));
+    mix-blend-mode: screen;
+    clip-path: polygon(
+        0% 0%,
+        70% 0%,
+        100% 25%,
+        100% 75%,
+        70% 100%,
+        0% 100%,
+        10% 50%
+    );
+    z-index: 1;
+}
+
+/* Render pequeño a la izquierda (usa mod.render) */
+.fighter-modal__render {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  /* centrado */
+    height: 90%;                        /* ocupa casi todo el alto del héroe */
+    width: auto;
+    object-fit: contain;
+    z-index: 2;
+    filter: drop-shadow(0 0 18px rgba(0,0,0,0.9));
+}
+
+.fighter-modal__chart {
+    display: none;
+}
+
+
+/* ======================= */
+/* Barra inferior info     */
+/* ======================= */
+
+.fighter-modal__footer {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr;
+    gap: 2.4rem;
+    padding: 1.8rem 2.6rem 2.2rem;
+    background: linear-gradient(to bottom, #180033, #220048);
+    border-top: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.fighter-modal__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.fighter-modal__title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #00e4ff;
+}
+
+.fighter-modal__subtitle {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b9a6ff;
+}
+
+/* Tags */
+.fighter-modal__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.mod-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 1.4rem;
+    border-radius: 999px;
+    font-size: 1.2rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(7, 0, 26, 0.9);
+}
+
+/* Descripción */
+.fighter-modal__description {
+    margin-top: 0.4rem;
+    font-size: 1.45rem;
+    line-height: 1.6;
+    color: #e4ddff;
+}
+
+/* Lado derecho: chart + botones */
+.fighter-modal__side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.fighter-modal__chart {
+    flex: 1 1 auto;
+    border-radius: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    background: #050017;
+    max-height: 170px;
+}
+
+.fighter-modal__chart img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.fighter-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .fighter-modal__footer {
+        grid-template-columns: 1fr;
+        padding: 1.6rem 1.8rem 2rem;
+    }
+
+    .fighter-modal__actions {
+        justify-content: flex-start;
+    }
+
+    .fighter-modal__render {
+        left: 4%;
+        height: 110%;
+    }
+}
+
+@media (max-width: 600px) {
+    .mod-modal__content.fighter-modal {
+        width: 96vw;
+    }
+
+    .fighter-modal__footer {
+        gap: 1.6rem;
+    }
+
+    .fighter-modal__title {
+        font-size: 2.1rem;
+    }
+
+    .fighter-modal__render {
+        height: 105%;
+    }
+}
+
+.fighter-modal__skins {
+    margin-top: 0.6rem;
+    display: none;           /* se activa por JS si hay variantes */
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.skin-pill {
+    padding: 0.3rem 1.0rem;
+    border-radius: 999px;
+    font-size: 1.2rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(8, 0, 32, 0.9);
+    color: #e4ddff;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skin-pill.is-active {
+    background: #00e4ff;
+    color: #12002a;
+    box-shadow: 0 0 10px #00e4ff;
+}
+
+.fighter-modal__skins-row {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+}
+
+/* dejamos fighter-modal__skins como está, solo lo usamos dentro de la row */
+
+.damage-toggle {
+    padding: 0.4rem 1.4rem;
+    border-radius: 999px;
+    font-size: 1.2rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(20, 0, 40, 0.9);
+    color: #e4ddff;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.damage-toggle.is-active {
+    background: #ff3ef7;
+    color: #12002a;
+    box-shadow: 0 0 10px #ff3ef7;
+    transform: translateY(-1px);
 }

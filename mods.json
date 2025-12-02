@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "title": "GOKU (SUPER)",
+    "subtitle": "Super Saiyan",
+    "category": "Saiyan",
+    "saga": "Dragon Ball Super",
+    "description": "Test de Goku Super Saiyan usando la imagen externa.",
+    "background": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan.png",
+    "chart": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan.png",
+    "render": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan.png",
+    "video": "https://www.youtube.com/watch?v=VID_TEST_SSJ",
+    "download": "https://mega.nz/#!TEST_SSJ"
+  },
+  {
+    "title": "GOKU (SUPER)",
+    "subtitle": "Super Saiyan God",
+    "category": "Saiyan God",
+    "saga": "Dragon Ball Super",
+    "description": "Test de Goku Super Saiyan God usando la imagen externa.",
+    "background": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan%20God.png",
+    "chart": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan%20God.png",
+    "render": "https://sparkingzerometa.com/szm/characters/model/Goku%20(Super),%20Super%20Saiyan%20God.png",
+    "video": "https://www.youtube.com/watch?v=VID_TEST_SSG",
+    "download": "https://mega.nz/#!TEST_SSG"
+  }
+]
